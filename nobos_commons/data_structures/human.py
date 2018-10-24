@@ -4,6 +4,7 @@ from nobos_commons.data_structures.bounding_box import BoundingBox
 from nobos_commons.data_structures.dimension import Vec3D, Vec2D
 import numpy as np
 
+
 class Joint2D(object):
     __slots__ = ['num', 'name', 'x', 'y', 'score', 'id']
 
