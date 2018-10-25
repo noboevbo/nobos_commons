@@ -1,7 +1,7 @@
 from nobos_commons.data_structures.configs.cache_config import CacheConfig
 
 
-class CommonConfig(object):
+class NobosToolsConfig(object):
     slots = ["cache_config"]
 
     cache_config: CacheConfig
