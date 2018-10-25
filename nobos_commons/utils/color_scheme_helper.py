@@ -2,6 +2,13 @@ from typing import List
 
 
 def get_color_scheme(color_scheme_length: int = 7, channels: int = 3) -> List[List[int]]:
+    """
+    Returns a color scheme for 1, 2 or 3 channels. The color scheme will return a equal distribution from 0 to 255 for
+    each channel.
+    :param color_scheme_length: The length of the color scheme
+    :param channels: The number of channels of the color scheme
+    :return:
+    """
     if channels == 1:
         return get_color_scheme_1_channel(color_scheme_length)
     if channels == 2:
