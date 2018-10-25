@@ -37,12 +37,3 @@ class ImgDirProvider(InputProviderBase):
 
             if self.fps is not None:
                 time.sleep(max(1. / self.fps - (time.time() - start), 0))
-
-# Example usage:
-# if __name__ == '__main__':
-#     provider = ImgDirProvider("/home/dennis/Downloads/tmp/out", fps = 120)
-#     fps_logger = FPSLogger(average_over_seconds=2)
-#     for i in provider.get_frame():
-#         cv2.imshow('img_dir', i)
-#         fps_logger.print_fps()
-

@@ -37,12 +37,3 @@ class WebcamProvider(InputProviderBase):
 
             else:
                 return None
-
-# Example usage:
-# if __name__ == '__main__':
-#     provider = WebcamProvider()
-#     fps_logger = FPSLogger()
-#     for i in provider.get_frame():
-#         cv2.imshow('webcam', i)
-#         fps_logger.print_fps()
-
