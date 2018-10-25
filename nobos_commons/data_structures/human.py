@@ -85,13 +85,14 @@ class HumanPoseResult(object):
 
 class ImageContentHumans(object):
     __slots__ = ['img_path', 'humans', 'straying_joints', 'straying_limbs']
-    # TODO: Hier sollten noch die Joint sund Limbs rein, die nicht zu Menschen gemapped wurden
 
     def __init__(self, humans: List[HumanPoseResult] = [], straying_joints: Dict[int, List[Joint2D]] = {}, straying_limbs: Dict[int, List[Limb2D]] = {}):
         """
         Contains all human poses recognized in the given image
         :param img_path: The filepath of the image
         :param humans: The human poses contained in the image
+        :param straying_joints: Joints which are recognized but not mapped to a human
+        :param straying_limbs: Limbs which are recognized but not mapped to a human
         """
         self.humans = humans
         self.straying_joints = straying_joints
