@@ -23,5 +23,11 @@ class SkeletonConfigBase:
     def limb_colors(self) -> List[List[int]]:
         raise NotImplementedError
 
+    @property
+    def joint_colors(self) -> List[List[int]]:
+        raise NotImplementedError
+
+    # TODO: Colors -> Datastructure instead list ..
+
     def get_joint_name_by_id(self, joint_id):
         return list(self.joints.items())[joint_id][0]
