@@ -1,8 +1,10 @@
 import math
-from typing import List
+from collections import OrderedDict
+from typing import List, Dict
 
 from nobos_commons.data_structures.geometry import Triangle
-from nobos_commons.data_structures.human import Joint2D
+from nobos_commons.data_structures.human import Joint2D, Limb2D, HumanPoseResult
+from nobos_commons.data_structures.skeleton_config_base import SkeletonConfigBase
 
 
 def get_euclidean_distance_joint2d(joint_a: Joint2D, joint_b: Joint2D) -> float:
@@ -80,3 +82,28 @@ def get_triangle_from_joints(joint_a: Joint2D, joint_b: Joint2D, joint_c: Joint2
     beta_rad = math.acos(cos_beta)
     gamma_rad = math.pi - alpha_rad - beta_rad
     return Triangle(length_a, length_b, length_c, alpha_rad, beta_rad, gamma_rad)
+
+
+def get_limbs_from_joints(joints: Dict[int, Joint2D], skeleton_config: SkeletonConfigBase) -> Dict[int, Limb2D]:
+    limbs: Dict[int, Limb2D] = OrderedDict()
+    # TODO: scores?
+    for limb_num, limb_cfg in enumerate(skeleton_config.limbs):
+        joint_from = joints[limb_cfg[0]]
+        joint_to = joints[limb_cfg[1]]
+        score_by_joints = (joint_from.score + joint_to.score) / 2
+        limbs[limb_num] = Limb2D(num=limb_num,
+                                 joint_from=joint_from,
+                                 joint_to=joint_to,
+                                 score=score_by_joints,
+                                 matched_score=score_by_joints)
+    return limbs
+
+
+def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_config: SkeletonConfigBase):
+    limbs = get_limbs_from_joints(joints, skeleton_config)
+    # TODO: Human score .. calculate correctly
+    human_score = 0
+    for joint_id, joint in joints.items():
+        human_score += joint.score
+    human_score = human_score / len(skeleton_config.joints)
+    return HumanPoseResult(joints=list(joints.values()), limbs=list(limbs.values()), score=human_score)
