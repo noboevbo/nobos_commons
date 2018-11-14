@@ -112,12 +112,12 @@ def visualize_straying_joints(original_img: np.ndarray, straying_joint_dict: Dic
                                joints=straying_joints,
                                color=Colors.grey,
                                write_in_original_image=True,
-                               radius=5)
+                               radius=10)
         img = visualize_joints(original_img=img,
                                joints=straying_joints,
                                color=joint_colors[joint_num],
                                write_in_original_image=True,
-                               radius=2)
+                               radius=5)
     return img
 
 
@@ -133,7 +133,8 @@ def visualize_joint(original_img: np.ndarray, joint: Joint2D, color: Color, writ
     :return: The image with the visualized joint
     """
     img = original_img if write_in_original_image else original_img.copy()
-    cv2.circle(img, tuple(joint.coordinates), radius, color.tuple_bgr, thickness=-1)
+    img = cv2.circle(img, tuple(joint.coordinates), radius, color.tuple_bgr, thickness=-1)
+    return img
 
 
 def visualize_joints(original_img: np.ndarray, joints: List[Joint2D], color: Color,
@@ -150,5 +151,5 @@ def visualize_joints(original_img: np.ndarray, joints: List[Joint2D], color: Col
     """
     img = original_img if write_in_original_image else original_img.copy()
     for joint in joints:
-        visualize_joint(img, joint, color, write_in_original_image=False, radius=radius)
+        img = visualize_joint(img, joint, color, write_in_original_image=False, radius=radius)
     return img
