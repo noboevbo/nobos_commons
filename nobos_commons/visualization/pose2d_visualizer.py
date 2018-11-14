@@ -1,12 +1,11 @@
 import math
-from typing import List, Tuple, Dict
+from typing import List, Dict
 
-import numpy as np
 import cv2
+import numpy as np
 
 from nobos_commons.data_structures.color import Color, Colors
 from nobos_commons.data_structures.human import ImageContentHumans, Joint2D, Limb2D
-from nobos_commons.visualization.img_utils import rgb_to_bgr_color
 
 
 def visualize_human_pose(original_img: np.ndarray, human_data: ImageContentHumans, limb_colors: [], joint_colors: [],

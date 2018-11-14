@@ -7,6 +7,12 @@ from nobos_commons.data_structures.constants.detection_classes import COCO_CLASS
 
 
 def draw_bb(image: np.ndarray, bb: BoundingBox):
+    """
+    Draws the given bounding box in the image
+    :param image: The image in which the bounding box should be drawn
+    :param bb: The bounding box too be drawn
+    :return: The image with the visualized bounding box
+    """
     color = DETECTION_COLOR_PALETTE[COCO_CLASSES.index(bb.label)]
     top_left_tuple = (bb.top_left.x, bb.top_left.y)
     bottom_right_tuple = (bb.bottom_right.x, bb.bottom_right.y)
