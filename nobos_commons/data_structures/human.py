@@ -103,6 +103,12 @@ class HumanMetadata(object):
     __slots__ = ['hip_center', 'direction_point', 'camera_hip_distance']
 
     def __init__(self, hip_center: Vec3D[float], direction_point: Vec2D[float], camera_hip_distance: Vec3D[float]):
+        """
+        Contains Metadata of a human
+        :param hip_center: The center of the hip of the human (3D)
+        :param direction_point: A point in the direction of the humans body (3D)
+        :param camera_hip_distance: The distance of the humans hip to the cameras center (in meters)
+        """
         self.hip_center = hip_center
         self.direction_point = direction_point
         self.camera_hip_distance = camera_hip_distance
