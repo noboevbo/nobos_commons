@@ -1,5 +1,7 @@
 from typing import Tuple
 
+from nobos_commons.data_structures.singleton import Singleton
+
 
 class Color(object):
     __slots__ = ["r", "g", "b"]
@@ -23,6 +25,17 @@ class Color(object):
         rgb_tuple = tuple(int(hex[i:i + 2], 16) for i in (0, 2, 4))
         return Color(r=rgb_tuple[0], g=rgb_tuple[1], b=rgb_tuple[2])
 
-    @staticmethod
-    def is_color_value(value: int):
+    @classmethod
+    def is_color_value(cls, value: int):
         return 0 <= value <= 255
+
+
+class Colors(Singleton):
+    grey = Color(128, 128, 128)
+    red = Color(255, 0, 0)
+    green = Color(0, 255, 0)
+    blue = Color(0, 0, 255)
+    black = Color(0, 0, 0)
+    white = Color(255, 255, 255)
+
+
