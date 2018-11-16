@@ -65,7 +65,7 @@ class __Cache(object):
             if isinstance(arg, collections.Hashable):
                 if isinstance(arg, str):
                     arg_hashes = "{}_{}".format(arg_hashes, hashlib.sha256(bytes(arg.encode('utf-8'))).hexdigest())
-                elif callable(arg):  # is a function
+                elif callable(arg):  # is a function, TODO: Mabye use the parameters + func_path as str and hash this
                     raise NotImplementedError(
                         "Type {} is not supported for caching because it is not hashable".format(type(arg)))
                 else: # TODO: OBJS?
