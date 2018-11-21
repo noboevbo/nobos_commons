@@ -40,11 +40,11 @@ class Limb2D(object):
         :param score: The score of the limb
         :param matched_score: The matched score of the limbs and the joints combined
         """
-        self.num = num
-        self.joint_from = joint_from
-        self.joint_to = joint_to
-        self.score = score
-        self.matched_score = matched_score
+        self.num: int = num
+        self.joint_from: Joint2D = joint_from
+        self.joint_to: Joint2D = joint_to
+        self.score: float = score
+        self.matched_score: float = matched_score
 
 
 class HumanPoseResult(object):

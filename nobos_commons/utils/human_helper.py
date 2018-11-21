@@ -1,8 +1,6 @@
 from collections import defaultdict
 from typing import Dict, List
 
-from nobos_commons.data_structures.skeleton_config_base import SkeletonConfigBase
-
 from nobos_commons.data_structures.human import HumanPoseResult, Limb2D
 
 
