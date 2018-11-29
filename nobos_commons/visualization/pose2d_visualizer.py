@@ -58,7 +58,7 @@ def get_human_pose_image(original_img: np.ndarray, human_data: ImageContentHuman
     limb_line_width = 4
 
     for human in human_data.humans:
-        for idx, limb in enumerate(human.limbs):
+        for idx, limb in enumerate(human.skeleton.limbs):
             if not limb:
                 continue
             if limb.matched_score < min_limb_score_to_show:
@@ -67,7 +67,7 @@ def get_human_pose_image(original_img: np.ndarray, human_data: ImageContentHuman
             if limb_color is None:
                 continue
             img = visualize_limb(img, limb, limb_color, limb_line_width, True)
-        for joint_num, joint in enumerate(human.joints):
+        for joint_num, joint in enumerate(human.skeleton.joints):
             cv2.circle(img, tuple(joint.coordinates), 5, joint_colors[joint_num].tuple_bgr, thickness=-1)
     return img
 

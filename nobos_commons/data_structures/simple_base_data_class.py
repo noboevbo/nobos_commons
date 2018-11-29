@@ -12,6 +12,9 @@ class SimpleBaseDataClass(Generic[T]):
     def __get_key_from_index(self, idx: int) -> str:
         return list(self.__dict__.keys())[idx]
 
+    def __get_index_from_key(self, key: str) -> int:
+        return list(self.__dict__.keys()).index('_' + key)
+
     def __iter__(self) -> Iterator[T]:
         return iter(self.__dict__.values())
 
@@ -19,7 +22,7 @@ class SimpleBaseDataClass(Generic[T]):
         if type(key) == int:
             return list(self.__dict__.values())[key]
         else:
-            return self.__dict__[key]
+            return self.__dict__['_' + key]
 
     # def __setitem__(self, key, value: T):
     #     if type(key) == int:

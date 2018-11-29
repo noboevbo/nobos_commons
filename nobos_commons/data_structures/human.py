@@ -12,12 +12,12 @@ from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 class HumanPoseResult(object):
     __slots__ = ['skeleton', 'score', 'heatmaps', 'uid', 'bounding_box']
 
-    # @property
-    # def joint_list(self) -> List[List[int]]:
-    #     joint_list = []
-    #     for joint in self.skeleton.joints:
-    #         joint_list.append([joint.x, joint.y])
-    #     return joint_list
+    @property
+    def joint_list(self) -> List[List[int]]:
+        joint_list = []
+        for joint in self.skeleton.joints:
+            joint_list.append([joint.x, joint.y])
+        return joint_list
 
     def __init__(self, skeleton: SkeletonBase, score: float, uid: str = None, bounding_box: BoundingBox = None,
                  heatmaps: np.ndarray = None):
