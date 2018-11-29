@@ -3,6 +3,7 @@ from typing import TypeVar, Generic, Iterator
 T = TypeVar('T')
 
 
+#  TODO: This should be renamed because it expects properties, not standard class attributes
 class SimpleBaseDataClass(Generic[T]):
     """
     This class is a base class for data classes, which only contain fields which should be accessible like a
