@@ -2,11 +2,12 @@ from collections import defaultdict
 from typing import Dict, List
 
 from nobos_commons.data_structures.human import HumanPoseResult, Limb2D
+from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 
 
 def is_joint_from_limb_in_human(human: HumanPoseResult, limb_candidate: Limb2D) -> bool:
-    return human.joints[limb_candidate.joint_from.num] == limb_candidate.joint_from or \
-           human.joints[limb_candidate.joint_to.num] == limb_candidate.joint_to
+    return human.skeleton.joints[limb_candidate.joint_from.num] == limb_candidate.joint_from or \
+           human.skeleton.joints[limb_candidate.joint_to.num] == limb_candidate.joint_to
 
 
 def get_empty_human(num_joints, num_limbs) -> HumanPoseResult:
@@ -15,19 +16,19 @@ def get_empty_human(num_joints, num_limbs) -> HumanPoseResult:
 
 
 def are_joints_in_both_humans(human_a: HumanPoseResult, human_b: HumanPoseResult) -> bool:
-    for joint_idx, joint in enumerate(human_b.joints):
-        if joint is not None and human_a.joints[joint_idx] is not None:
+    for joint_idx, joint in enumerate(human_b.skeleton.joints):
+        if joint is not None and human_a.skeleton.joints[joint_idx] is not None:
             return True
     return False
 
 
 def get_merged_humans(human_a: HumanPoseResult, human_b: HumanPoseResult) -> HumanPoseResult:
-    for joint_idx, joint in enumerate(human_b.joints):
+    for joint_idx, joint in enumerate(human_b.skeleton.joints):
         if joint is None:
             continue
-        if human_a.joints[joint_idx] is not None:
+        if human_a.skeleton.joints[joint_idx] is not None:
             raise RuntimeError("Merge conflict, joint exists in both humans")
-        human_a.joints[joint_idx] = joint
+        human_a.skeleton.joints[joint_idx] = joint # TODO: Set not possible..
 
     for limb_idx, limb in enumerate(human_b.limbs):
         if limb is None:
@@ -40,7 +41,7 @@ def get_merged_humans(human_a: HumanPoseResult, human_b: HumanPoseResult) -> Hum
     return human_a
 
 
-def get_humans_from_limbs(limbs: Dict[int, List[Limb2D]], skeleton_config: SkeletonConfigBase, min_number_of_limbs: int,
+def get_humans_from_limbs(limbs: Dict[int, List[Limb2D]], skeleton_config: SkeletonBase, min_number_of_limbs: int,
                           min_human_score: float) -> (List[HumanPoseResult], Dict[int, List[Limb2D]]):
     # last number in each row is the total parts number of that person
     # the second last number in each row is the score of the overall configuration
@@ -78,7 +79,7 @@ def get_humans_from_limbs(limbs: Dict[int, List[Limb2D]], skeleton_config: Skele
                     human_list[j1].score += limb_candidate.score + limb_candidate.joint_to.score
             elif not found:
                 human = get_empty_human(len(skeleton_config.joints), len(skeleton_config.limbs))
-                human.joints[limb_candidate.joint_from.num] = limb_candidate.joint_from
+                human.joints[limb_candidate.joint_from.num] = limb_candidate.joint_from # TODO: Die Limbs koennen nicht gesetzt werden..
                 human.joints[limb_candidate.joint_to.num] = limb_candidate.joint_to
                 human.limbs[limb_candidate.num] = limb_candidate
                 if limb_candidate not in limbs_used:

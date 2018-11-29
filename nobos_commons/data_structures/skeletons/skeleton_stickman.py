@@ -6,7 +6,7 @@ from nobos_commons.data_structures.skeletons.skeleton_stickman_limbs import Skel
 
 class SkeletonStickman(SkeletonBase):
     joints: SkeletonStickmanJoints = SkeletonStickmanJoints()
-    limbs: SkeletonStickmanLimbs = SkeletonStickmanLimbs()
+    limbs: SkeletonStickmanLimbs = SkeletonStickmanLimbs(joints)
     joint_colors = [
         Color(r=192, g=192, b=192),  # ("Nose", 0),
         Color(r=128, g=128, b=128),  # ("Neck", 1),
@@ -51,11 +51,11 @@ class SkeletonStickman(SkeletonBase):
         None,  # 'RShoulder-REar'
         None  # 'LShoulder-LEar'
     ]
-
-test = SkeletonStickman.__dict__.keys()
-test2 = SkeletonStickman.joints.__dict__.keys()
-a = len(SkeletonStickman.joints)
-x = 1
+#
+# test = SkeletonStickman.__dict__.keys()
+# test2 = SkeletonStickman.joints.__dict__.keys()
+# a = len(SkeletonStickman.joints)
+# x = 1
 
 # class A(object):
 #     a: int = 1

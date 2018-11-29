@@ -1,4 +1,3 @@
-from collections import OrderedDict
 from typing import List
 
 from nobos_commons.data_structures.color import Color

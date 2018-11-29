@@ -4,8 +4,9 @@ from nobos_commons.data_structures.human import Joint2D
 from nobos_commons.data_structures.simple_base_data_class import SimpleBaseDataClass
 
 
-class SkeletonJointsBase(SimpleBaseDataClass):
+class SkeletonJointsBase(SimpleBaseDataClass[Joint2D]):
     __dict__: Dict[str, Joint2D]
+
     def set_joints_from_list(self, ordered_joint_list: List[Joint2D]):
         assert len(ordered_joint_list) == self.__len__()
         for joint_num in range(0, self.__len__()):
