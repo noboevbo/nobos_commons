@@ -5,7 +5,7 @@ from typing import List
 import numpy as np
 
 from nobos_commons.data_structures.dimension import ImageSize
-from nobos_commons.data_structures.human import Joint2D
+from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 
 
 class JointAugmenter(object):

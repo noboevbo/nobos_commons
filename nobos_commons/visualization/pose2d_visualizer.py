@@ -5,7 +5,9 @@ import cv2
 import numpy as np
 
 from nobos_commons.data_structures.color import Color, Colors
-from nobos_commons.data_structures.human import ImageContentHumans, Joint2D, Limb2D
+from nobos_commons.data_structures.human import ImageContentHumans
+from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
+from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 
 
 def visualize_human_pose(original_img: np.ndarray, human_data: ImageContentHumans, limb_colors: [], joint_colors: [],

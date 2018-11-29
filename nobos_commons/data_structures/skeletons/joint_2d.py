@@ -5,7 +5,7 @@ class Joint2D(object):
     def coordinates(self):
         return [self.x, self.y]
 
-    def __init__(self, num: int, name: str, x:int = -1, y: int = -1, score: float = -1):
+    def __init__(self, num: int, name: str, x: int = -1, y: int = -1, score: float = -1):
         """
         Data class for 2D joints
         :param num: The number of the joint in the skeleton configuration
@@ -19,6 +19,13 @@ class Joint2D(object):
         self.x = x
         self.y = y
         self.score = score
+
+    def copy_from(self, other: 'Joint2D'):
+        assert self.num == other.num, 'Joint numbers don\'t match'
+        assert self.name == other.name, 'Joint names don\'t match'
+        self.x = other.x
+        self.y = other.y
+        self.score = other.score
 
     @property
     def num(self) -> int:

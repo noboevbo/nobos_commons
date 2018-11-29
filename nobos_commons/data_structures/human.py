@@ -10,22 +10,14 @@ from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 
 
 class HumanPoseResult(object):
-    __slots__ = ['skeleton', 'score', 'heatmaps', '__num_limbs', 'uid', 'bounding_box']
+    __slots__ = ['skeleton', 'score', 'heatmaps', 'uid', 'bounding_box']
 
-    @property
-    def num_limbs(self) -> int:
-        self.__num_limbs = 0
-        for limb in self.skeleton.limbs:
-            if limb.is_set:
-                self.__num_limbs += 1
-        return self.__num_limbs
-
-    @property
-    def joint_list(self) -> List[List[int]]:
-        joint_list = []
-        for joint in self.skeleton.joints:
-            joint_list.append([joint.x, joint.y])
-        return joint_list
+    # @property
+    # def joint_list(self) -> List[List[int]]:
+    #     joint_list = []
+    #     for joint in self.skeleton.joints:
+    #         joint_list.append([joint.x, joint.y])
+    #     return joint_list
 
     def __init__(self, skeleton: SkeletonBase, score: float, uid: str = None, bounding_box: BoundingBox = None,
                  heatmaps: np.ndarray = None):
@@ -40,8 +32,6 @@ class HumanPoseResult(object):
         self.uid = uid
         self.bounding_box = bounding_box # TODO: Should be calculated from skeleton if none
         self.heatmaps = heatmaps
-
-        self.__num_limbs = 0 # TODO: rename to num_perceived_limbs or so
 
 
 class ImageContentHumans(object):

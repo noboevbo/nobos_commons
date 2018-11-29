@@ -34,3 +34,9 @@ class Limb2D(object):
     @property
     def is_set(self) -> bool:
         return self.score != -1
+
+    def copy_from(self, other: 'Limb2D'):
+        assert self.num == other.num, 'Limb numbers don\'t match'
+        self._joint_from.copy_from(other.joint_from)
+        self._joint_to.copy_from(other.joint_to)
+        self.score = other.score

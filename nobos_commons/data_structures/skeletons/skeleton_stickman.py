@@ -51,35 +51,3 @@ class SkeletonStickman(SkeletonBase):
         None,  # 'RShoulder-REar'
         None  # 'LShoulder-LEar'
     ]
-#
-# test = SkeletonStickman.__dict__.keys()
-# test2 = SkeletonStickman.joints.__dict__.keys()
-# a = len(SkeletonStickman.joints)
-# x = 1
-
-# class A(object):
-#     a: int = 1
-#
-#     def __init__(self):
-#         self.a = 2
-#
-# a = A()
-# print(a.a)
-# print(A.a)
-#
-# test = SkeletonStickman()
-# test.vasd = 1
-# a = test
-# def test() -> SkeletonBase:
-#     return SkeletonStickman()
-#
-# a: SkeletonStickman = test()
-# v = a.joints.nose
-# b = 1
-# test = SkeletonStickmanJoints()
-# test[0] = 1
-# print(test.nose)
-# test["nose"] = 2
-# print(test.nose)
-# print(test[0])
-# print(test['nose'])

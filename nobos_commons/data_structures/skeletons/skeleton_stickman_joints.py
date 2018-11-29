@@ -1,6 +1,6 @@
 from typing import Dict
 
-from nobos_commons.data_structures.human import Joint2D
+from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.skeleton_joints_base import SkeletonJointsBase
 
 
@@ -127,10 +127,3 @@ class SkeletonStickmanJoints(SkeletonJointsBase):
     @property
     def hip_center(self) -> Joint2D:
         return self._hip_center
-
-
-test = SkeletonStickmanJoints()
-joint_test = Joint2D(num=0, name='nose', score=999)
-test[0] = joint_test
-x = test
-a = 1

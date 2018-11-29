@@ -1,6 +1,4 @@
-from typing import Iterator
-
-from nobos_commons.data_structures.human import Limb2D
+from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 from nobos_commons.data_structures.skeletons.skeleton_limbs_base import SkeletonLimbsBase
 from nobos_commons.data_structures.skeletons.skeleton_stickman_joints import SkeletonStickmanJoints
 

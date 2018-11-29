@@ -21,11 +21,11 @@ class SimpleBaseDataClass(Generic[T]):
         else:
             return self.__dict__[key]
 
-    def __setitem__(self, key, value: T):
-        if type(key) == int:
-            self.__dict__[self.__get_key_from_index(key)] = value
-        else:
-            self.__dict__[key] = value
+    # def __setitem__(self, key, value: T):
+    #     if type(key) == int:
+    #         self.__dict__[self.__get_key_from_index(key)] = value
+    #     else:
+    #         self.__dict__[key] = value
 
     def __len__(self):
         return len(self.__dict__)

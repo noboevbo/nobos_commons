@@ -11,7 +11,7 @@ def get_human_bounding_box_from_joints(human: HumanPoseResult, image_size: Image
     min_y = sys.maxsize
     max_x = 0
     max_y = 0
-    for joint in human.joints:
+    for joint in human.skeleton.joints:
         x = joint.x
         y = joint.y
         min_x = min_x if x > min_x else x

@@ -1,10 +1,12 @@
 import math
 from collections import OrderedDict
-from typing import List, Dict
+from typing import List, Dict, Type
 
 from nobos_commons.data_structures.geometry import Triangle
-from nobos_commons.data_structures.human import Joint2D, Limb2D, HumanPoseResult
-from nobos_commons.data_structures.skeleton_config_base import SkeletonConfigBase
+from nobos_commons.data_structures.human import HumanPoseResult
+from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
+from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
+from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 
 
 def get_euclidean_distance_joint2d(joint_a: Joint2D, joint_b: Joint2D) -> float:
@@ -84,26 +86,28 @@ def get_triangle_from_joints(joint_a: Joint2D, joint_b: Joint2D, joint_c: Joint2
     return Triangle(length_a, length_b, length_c, alpha_rad, beta_rad, gamma_rad)
 
 
-def get_limbs_from_joints(joints: Dict[int, Joint2D], skeleton_config: SkeletonConfigBase) -> Dict[int, Limb2D]:
+def get_limbs_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[SkeletonBase]) -> Dict[int, Limb2D]:
     limbs: Dict[int, Limb2D] = OrderedDict()
     # TODO: scores?
-    for limb_num, limb_cfg in enumerate(skeleton_config.limbs):
-        joint_from = joints[limb_cfg[0]]
-        joint_to = joints[limb_cfg[1]]
+    for limb in skeleton_type.limbs:
+        joint_from = joints[limb.joint_from.num]
+        joint_to = joints[limb.joint_to.num]
         score_by_joints = (joint_from.score + joint_to.score) / 2
-        limbs[limb_num] = Limb2D(num=limb_num,
+        limbs[limb.num] = Limb2D(num=limb.num,
                                  joint_from=joint_from,
                                  joint_to=joint_to,
-                                 score=score_by_joints,
-                                 matched_score=score_by_joints)
+                                 score=score_by_joints)
     return limbs
 
 
-def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_config: SkeletonConfigBase):
-    limbs = get_limbs_from_joints(joints, skeleton_config)
+def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[SkeletonBase]):
+    limbs = get_limbs_from_joints(joints, skeleton_type)
     # TODO: Human score .. calculate correctly
     human_score = 0
     for joint_id, joint in joints.items():
         human_score += joint.score
-    human_score = human_score / len(skeleton_config.joints)
-    return HumanPoseResult(joints=list(joints.values()), limbs=list(limbs.values()), score=human_score)
+    human_score = human_score / len(skeleton_type.joints)
+    skeleton = skeleton_type()
+    skeleton.joints.copy_from_list(list(joints.values()))
+    skeleton.limbs.set_limbs_from_list(list(limbs.values()))
+    return HumanPoseResult(skeleton=skeleton, score=human_score)
