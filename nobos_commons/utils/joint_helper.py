@@ -109,5 +109,5 @@ def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[Skelet
     human_score = human_score / len(skeleton_type.joints)
     skeleton = skeleton_type()
     skeleton.joints.copy_from_list(list(joints.values()))
-    skeleton.limbs.set_limbs_from_list(list(limbs.values()))
+    skeleton.limbs.copy_from_list(list(limbs.values()))
     return HumanPoseResult(skeleton=skeleton, score=human_score)
