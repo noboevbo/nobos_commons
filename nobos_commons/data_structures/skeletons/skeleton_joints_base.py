@@ -1,6 +1,6 @@
 from typing import List, Dict
 
-from nobos_commons.data_structures.simple_base_data_class import BaseIterablePropertyClass
+from nobos_commons.data_structures.base_iterable_property_class import BaseIterablePropertyClass
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 
 
