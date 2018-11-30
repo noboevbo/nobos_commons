@@ -1,3 +1,4 @@
+# TODO: Do we really want this as a one dimensional list of names?
 COCO_CLASSES = [
     "person",
     "bicycle",

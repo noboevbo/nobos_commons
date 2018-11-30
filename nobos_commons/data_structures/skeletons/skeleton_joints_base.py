@@ -8,23 +8,23 @@ class SkeletonJointsBase(BaseIterablePropertyClass[Joint2D]):
     __dict__: Dict[str, Joint2D]
 
     def copy_from_list(self, joint_list: List[Joint2D]):
+        """
+        Takes joints from a lists and copies their parameters to the SkeletonJoints. It does not allow for duplicated
+        joints in the list.
+        :param joint_list: A list of Joint2Ds which parameters should be set in this skeleton_joints
+        """
         added_joint_nums: List[int] = []
         for joint in joint_list:
             assert joint.num not in added_joint_nums, "Duplicated joint num {0} found!".format(joint.num)
+            assert joint.num < len(self), "joint number {0} is not available in this skeleton.".format(joint.num)
             added_joint_nums.append(joint.num)
             self[joint.num].copy_from(joint)
 
-    # def set_joints_from_list(self, ordered_joint_list: List[Joint2D]):
-    #     assert len(ordered_joint_list) == self.__len__()
-    #     for joint_num in range(0, self.__len__()):
-    #         joint = ordered_joint_list[joint_num]
-    #         assert joint.num == joint_num, "Inconsistent joint number and index!"  # TODO: Without this it could be used more general...
-    #         self[joint_num].copy_from(joint)
-    #
-    # def set_joints_from_dict(self, joint_dict: Dict[int, Joint2D]):
-
-
     def num_joints_set(self):
+        """
+        Returns the number of joints which are actually parameterized.
+        :return: The number of joints which are actually parameterized.
+        """
         count = 0
         for joint in self:
             if joint.is_set:

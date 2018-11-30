@@ -5,14 +5,24 @@ from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 
 
 class SkeletonLimbsBase(BaseIterablePropertyClass[Limb2D]):
-    def set_limbs_from_list(self, ordered_limb_list: List[Limb2D]):
-        assert len(ordered_limb_list) == self.__len__()
-        for limb_num in range(0, self.__len__()):
-            limb = ordered_limb_list[limb_num]
-            assert limb.num == limb_num, "Inconsistent limb number and index!"  # TODO: Without this it could be used more general...
-            self[limb_num].copy_from(limb)
+    def copy_from_list(self, limb_list: List[Limb2D]):
+        """
+        Takes limbs from a lists and copies their parameters to the SkeletonLimbs. It does not allow for duplicated
+        limbs in the list.
+        :param limb_list: A list of Limb2Ds which parameters should be set in this skeleton_limbs
+        """
+        added_limb_nums: List[int] = []
+        for limb in limb_list:
+            assert limb.num not in added_limb_nums, "Duplicated limb num {0} found!".format(limb.num)
+            assert limb.num < len(self), "limb number {0} is not available in this skeleton.".format(limb.num)
+            added_limb_nums.append(limb.num)
+            self[limb.num].copy_from(limb)
 
     def num_limbs_set(self):
+        """
+        Returns the number of limbs which are actually parameterized.
+        :return: The number of limbs which are actually parameterized.
+        """
         count = 0
         for limb in self:
             if limb.is_set:
