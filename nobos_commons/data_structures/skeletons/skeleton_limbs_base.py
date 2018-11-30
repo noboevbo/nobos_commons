@@ -1,10 +1,10 @@
 from typing import List
 
-from nobos_commons.data_structures.simple_base_data_class import SimpleBaseDataClass
+from nobos_commons.data_structures.simple_base_data_class import BaseIterablePropertyClass
 from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 
 
-class SkeletonLimbsBase(SimpleBaseDataClass[Limb2D]):
+class SkeletonLimbsBase(BaseIterablePropertyClass[Limb2D]):
     def set_limbs_from_list(self, ordered_limb_list: List[Limb2D]):
         assert len(ordered_limb_list) == self.__len__()
         for limb_num in range(0, self.__len__()):

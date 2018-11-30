@@ -1,10 +1,10 @@
 from typing import List, Dict
 
-from nobos_commons.data_structures.simple_base_data_class import SimpleBaseDataClass
+from nobos_commons.data_structures.simple_base_data_class import BaseIterablePropertyClass
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 
 
-class SkeletonJointsBase(SimpleBaseDataClass[Joint2D]):
+class SkeletonJointsBase(BaseIterablePropertyClass[Joint2D]):
     __dict__: Dict[str, Joint2D]
 
     def copy_from_list(self, joint_list: List[Joint2D]):
