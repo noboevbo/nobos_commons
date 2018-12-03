@@ -111,6 +111,12 @@ def get_humans_from_limbs(limbs: Dict[int, List[Limb2D]], skeleton_type: Type[Sk
 
 
 def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[SkeletonBase]) -> HumanPoseResult:
+    """
+    TODO: Remove this? Replaced by auto_set_limbs in skeleton.
+    :param joints:
+    :param skeleton_type:
+    :return:
+    """
     limbs = get_limbs_from_joints(joints, skeleton_type)
     # TODO: Human score .. calculate correctly
     human_score = 0

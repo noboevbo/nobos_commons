@@ -15,10 +15,10 @@ class JointConverterJhmdbToStickman():
 
     def get_convertered_joints(self, jhmdb_joints: List[List[float]]) -> SkeletonStickmanJoints:
         skeleton_stickman_joints: SkeletonStickmanJoints = self._get_skeleton_from_joints(jhmdb_joints)
-
-        human = get_human_from_joints(skeleton_stickman_joints, SkeletonStickman)
-        test = 1
-        self._set_calculated_joints(skeleton_stickman_joints)
+        skeleton_stickman = SkeletonStickman()
+        skeleton_stickman.joints.copy_from_other(skeleton_stickman_joints)
+        skeleton_stickman.auto_set_limbs_from_joints()
+        self._set_calculated_joints(skeleton_stickman)
 
     # Private methods
 
@@ -35,15 +35,15 @@ class JointConverterJhmdbToStickman():
             skeleton_stickman_joints[internal_joint_name].score = 1  # TODO: Add possibility to add other score
         return skeleton_stickman_joints
 
-    def _set_calculated_joints(self, skeleton_stickman_joints: SkeletonStickmanJoints):
+    def _set_calculated_joints(self, skeleton_stickman: SkeletonStickman):
         a = 1
         # Hip Center
-        calculated_hip_center: Joint2D = get_middle_joint(joint_a=skeleton_stickman_joints.left_hip,
-                                                          joint_b=skeleton_stickman_joints.right_hip)
+        calculated_hip_center: Joint2D = get_middle_joint(joint_a=skeleton_stickman.joints.left_hip,
+                                                          joint_b=skeleton_stickman.joints.right_hip)
         if calculated_hip_center is not None:
-            skeleton_stickman_joints.hip_center.copy_from(calculated_hip_center)
+            skeleton_stickman.joints.hip_center.copy_from(calculated_hip_center)
 
-        human_height = self.human_surveyor.get_human_height(skeleton_stickman)
+        human_height = self.human_surveyor.get_human_height(skeleton_stickman.limbs)
 
         # Nose
 

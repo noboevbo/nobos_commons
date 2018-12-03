@@ -13,6 +13,12 @@ def get_limb_length(limb: Limb2D) -> float:
 
 
 def get_limbs_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[SkeletonBase]) -> SkeletonStickmanLimbs:
+    """
+    TODO: Remove this? Replaced by auto_set_limbs in skeleton.
+    :param joints:
+    :param skeleton_type:
+    :return:
+    """
     limbs: SkeletonStickmanLimbs = SkeletonStickmanLimbs(SkeletonStickmanJoints())
     # TODO: scores?
     for limb in skeleton_type.limbs:

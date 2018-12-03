@@ -20,6 +20,15 @@ class SkeletonJointsBase(BaseIterablePropertyClass[Joint2D]):
             added_joint_nums.append(joint.num)
             self[joint.num].copy_from(joint)
 
+    def copy_from_other(self, other: 'SkeletonJointsBase'):
+        """
+        Copies the values from the other SkeletonJoints
+        :param other: other skeleton joints, must be of the same type
+        """
+        assert type(self) == type(other), 'Can\'t copy values from another type!'
+        for joint in other:
+            self[joint.name].copy_from(joint)
+
     def num_joints_set(self):
         """
         Returns the number of joints which are actually parameterized.

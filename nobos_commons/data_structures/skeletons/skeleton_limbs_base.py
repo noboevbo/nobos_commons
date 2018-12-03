@@ -19,6 +19,11 @@ class SkeletonLimbsBase(BaseIterablePropertyClass[Limb2D]):
             self[limb.num].copy_from(limb)
 
     def copy_from_other(self, other: 'SkeletonLimbsBase'):
+        """
+        Copies the values from the other SkeletonLimbs
+        :param other: other skeleton limbs, must be of the same type
+        """
+        assert type(self) == type(other), 'Can\'t copy values from another type!'
         for limb in other:
             self[limb.num].copy_from(limb)
 

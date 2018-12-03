@@ -13,3 +13,12 @@ class SkeletonBase(object):
     limbs: SkeletonLimbsBase
     limb_colors: List[Color]
     joint_colors: List[Color]
+
+    def auto_set_limbs_from_joints(self):
+        """
+        Sets limb to set and its score based on the joints values in the skeleton.
+        """
+
+        for limb in self.limbs:
+            if limb.joint_to.is_set and limb.joint_from.is_set:
+                limb.score = (limb.joint_from.score + limb.joint_to.score) / 2
