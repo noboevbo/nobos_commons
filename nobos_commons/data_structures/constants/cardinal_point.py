@@ -1,0 +1,20 @@
+from enum import Enum
+
+
+class CardinalPoint(Enum):
+    NORTH = 0
+    NORTH_NORTHEAST = 22
+    NORTHEAST = 45
+    EAST_NORTHEAST = 67
+    EAST = 90
+    EAST_SOUTHEAST = 112
+    SOUTHEAST = 135
+    SOUTH_SOUTHEAST = 157
+    SOUTH = 180
+    SOUTH_SOUTHWEST = 202
+    SOUTHWEST = 225
+    WEST_SOUTHWEST = 247
+    WEST = 270
+    WEST_NORTHWEST = 292
+    NORTHWEST = 315
+    NORTH_NORTHWEST = 337

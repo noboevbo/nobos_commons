@@ -11,6 +11,8 @@ class JointConverterCocoToStickman():
         skeleton_stickman_joints: SkeletonStickmanJoints = self._get_skeleton_from_joints(coco_joints)
         self._set_calculated_joints(skeleton_stickman_joints)
 
+    # Private methods
+
     def _get_skeleton_from_joints(self, coco_joints: List[List[float]]) -> SkeletonStickmanJoints:
         skeleton_stickman_joints: SkeletonStickmanJoints = SkeletonStickmanJoints()
         for coco_joint_id, coco_joint_name in self._coco_joint_names_ordered:
