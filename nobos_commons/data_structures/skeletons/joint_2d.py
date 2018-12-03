@@ -1,11 +1,15 @@
+from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibility
+
+
 class Joint2D(object):
-    __slots__ = ['_num', '_name', 'x', 'y', 'score']
+    __slots__ = ['_num', '_name', 'x', 'y', 'score', 'visibility']
 
     @property
     def coordinates(self):
         return [self.x, self.y]
 
-    def __init__(self, num: int, name: str, x: int = -1, y: int = -1, score: float = -1):
+    def __init__(self, num: int, name: str, x: int = -1, y: int = -1, score: float = -1,
+                 visibility: JointVisibility = JointVisibility.VISIBLE):
         """
         Data class for 2D joints
         :param num: The number of the joint in the skeleton configuration
@@ -13,12 +17,14 @@ class Joint2D(object):
         :param x: The X coordinate (row pixel in image)
         :param y: The Y coordinate (column pixel in image)
         :param score: The prediction score
+        :param visibility: The visibility of the joint (Usually only used in datasets for training purpose)
         """
-        self._num = num
-        self._name = name
-        self.x = x
-        self.y = y
-        self.score = score
+        self._num: int = num
+        self._name: str = name
+        self.x: int = x
+        self.y: int = y
+        self.score: float = score
+        self.visibility: JointVisibility = visibility
 
     def copy_from(self, other: 'Joint2D'):
         assert self.num == other.num, 'Joint numbers don\'t match'
