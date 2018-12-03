@@ -18,6 +18,10 @@ class SkeletonLimbsBase(BaseIterablePropertyClass[Limb2D]):
             added_limb_nums.append(limb.num)
             self[limb.num].copy_from(limb)
 
+    def copy_from_other(self, other: 'SkeletonLimbsBase'):
+        for limb in other:
+            self[limb.num].copy_from(limb)
+
     def num_limbs_set(self):
         """
         Returns the number of limbs which are actually parameterized.

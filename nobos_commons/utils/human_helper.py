@@ -2,8 +2,10 @@ from collections import defaultdict
 from typing import Dict, List, Type
 
 from nobos_commons.data_structures.human import HumanPoseResult
+from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
+from nobos_commons.utils.limb_helper import get_limbs_from_joints
 
 
 def is_joint_from_limb_in_human(human: HumanPoseResult, limb_candidate: Limb2D) -> bool:
@@ -106,3 +108,16 @@ def get_humans_from_limbs(limbs: Dict[int, List[Limb2D]], skeleton_type: Type[Sk
                 straying_limbs[limb_num].append(limb)
 
     return humans, straying_limbs
+
+
+def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[SkeletonBase]) -> HumanPoseResult:
+    limbs = get_limbs_from_joints(joints, skeleton_type)
+    # TODO: Human score .. calculate correctly
+    human_score = 0
+    for joint_id, joint in joints.items():
+        human_score += joint.score
+    human_score = human_score / len(skeleton_type.joints)
+    skeleton = skeleton_type()
+    # skeleton.joints.copy_from_list(list(joints.values()))  # Implicitly copied when limbs are copied
+    skeleton.limbs.copy_from_other(limbs)
+    return HumanPoseResult(skeleton=skeleton, score=human_score)

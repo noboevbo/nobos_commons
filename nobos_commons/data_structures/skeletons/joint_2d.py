@@ -49,3 +49,11 @@ class Joint2D(object):
     @property
     def is_unassigned_joint(self) -> bool:
         return self.num == -1 and self.name is None
+
+    def reset(self):
+        """
+        Sets the joint to the default (unset) state.
+        """
+        self.x = -1
+        self.y = -1
+        self.score = -1

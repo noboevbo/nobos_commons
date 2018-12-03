@@ -35,6 +35,12 @@ class Limb2D(object):
     def is_set(self) -> bool:
         return self.score != -1
 
+    def reset(self):
+        """
+        Sets the limb to the default (unset) state.
+        """
+        self.score = -1
+
     def copy_from(self, other: 'Limb2D'):
         assert self.num == other.num, 'Limb numbers don\'t match'
         self._joint_from.copy_from(other.joint_from)
