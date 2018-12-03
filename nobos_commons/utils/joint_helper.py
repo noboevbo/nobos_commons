@@ -5,6 +5,7 @@ from typing import List, Dict, Type
 from nobos_commons.data_structures.geometry import Triangle
 from nobos_commons.data_structures.human import HumanPoseResult
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
+from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibility
 from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 
@@ -111,3 +112,29 @@ def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[Skelet
     skeleton.joints.copy_from_list(list(joints.values()))
     skeleton.limbs.copy_from_list(list(limbs.values()))
     return HumanPoseResult(skeleton=skeleton, score=human_score)
+
+
+def get_middle_joint(joint_a: Joint2D, joint_b: Joint2D) -> Joint2D:
+    """
+    Returns a joint which is in the middle of the two input joints. The visibility and score is estimated by the
+    visibility and score of the two surrounding joints.
+    :param joint_a: Surrounding joint one
+    :param joint_b: Surrounding joint two
+    :return: Joint in the middle of joint_a and joint_b
+    """
+    if not joint_a.is_set or not joint_b.is_set:
+        return None
+    visibility: JointVisibility
+    if joint_a.visibility == JointVisibility.VISIBLE and joint_b.visibility == JointVisibility.VISIBLE:
+        visibility = JointVisibility.VISIBLE
+    elif joint_a.visibility == JointVisibility.INVISIBLE or joint_b.visibility == JointVisibility.INVISIBLE:
+        visibility = JointVisibility.INVISIBLE
+    elif joint_a.visibility == JointVisibility.ABSENT or joint_b.visibility == JointVisibility.ABSENT:
+        visibility = JointVisibility.ABSENT
+
+    return Joint2D(
+        x=int((joint_a.x + joint_b.x) / 2),
+        y=int((joint_a.y + joint_b.y) / 2),
+        score=(joint_a.score + joint_b.score) / 2,
+        visibility=visibility
+    )

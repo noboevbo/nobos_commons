@@ -8,7 +8,7 @@ class Joint2D(object):
     def coordinates(self):
         return [self.x, self.y]
 
-    def __init__(self, num: int, name: str, x: int = -1, y: int = -1, score: float = -1,
+    def __init__(self, num: int = -1, name: str = None, x: int = -1, y: int = -1, score: float = -1,
                  visibility: JointVisibility = JointVisibility.VISIBLE):
         """
         Data class for 2D joints
@@ -27,11 +27,12 @@ class Joint2D(object):
         self.visibility: JointVisibility = visibility
 
     def copy_from(self, other: 'Joint2D'):
-        assert self.num == other.num, 'Joint numbers don\'t match'
-        assert self.name == other.name, 'Joint names don\'t match'
+        assert other.is_unassigned_joint or self.num == other.num, 'Joint numbers don\'t match'
+        assert other.is_unassigned_joint or self.name == other.name, 'Joint names don\'t match'
         self.x = other.x
         self.y = other.y
         self.score = other.score
+        self.visibility = other.visibility
 
     @property
     def num(self) -> int:
@@ -44,3 +45,7 @@ class Joint2D(object):
     @property
     def is_set(self) -> bool:
         return self.score != -1 and self.x != -1 and self.y != -1
+
+    @property
+    def is_unassigned_joint(self) -> bool:
+        return self.num == -1 and self.name is None
