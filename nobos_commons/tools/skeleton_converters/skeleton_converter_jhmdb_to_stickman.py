@@ -8,7 +8,7 @@ from nobos_commons.utils.human_surveyor import HumanSurveyor
 from nobos_commons.utils.joint_helper import get_middle_joint
 
 
-class JointConverterJhmdbToStickman():
+class SkeletonConverterJhmdbToStickman():
     def __init__(self, human_surveyor: HumanSurveyor):
         self.human_surveyor = human_surveyor
 

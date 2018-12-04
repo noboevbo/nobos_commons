@@ -4,7 +4,7 @@ from nobos_commons.data_structures.skeletons.skeleton_stickman import SkeletonSt
 from nobos_commons.utils.joint_helper import get_middle_joint
 
 
-class JointConverterCocoToStickman():
+class SkeletonConverterCocoToStickman():
     def get_convertered_joints(self, skeleton_coco: SkeletonCoco) -> SkeletonStickman:
         skeleton_stickman: SkeletonStickman = self._get_skeleton_from_joints(skeleton_coco)
         self._set_calculated_joints(skeleton_stickman)
