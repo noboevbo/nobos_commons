@@ -108,7 +108,6 @@ class SkeletonCocoJoints(SkeletonJointsBase):
     def right_knee(self) -> Joint2D:
         return self._right_knee
 
-
     @property
     def left_ankle(self) -> Joint2D:
         return self._left_ankle
