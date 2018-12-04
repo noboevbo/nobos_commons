@@ -30,8 +30,8 @@ class JointConverterJhmdbToStickman():
                 continue
             internal_joint_name = self._jhmdb_stickman_mapping[jhmdb_joint_name]
             jhmdb_joint = jhmdb_joints[jhmdb_joint_id]
-            skeleton_stickman_joints[internal_joint_name].x = jhmdb_joint[0]
-            skeleton_stickman_joints[internal_joint_name].y = jhmdb_joint[1]
+            skeleton_stickman_joints[internal_joint_name].x = int(jhmdb_joint[0])
+            skeleton_stickman_joints[internal_joint_name].y = int(jhmdb_joint[1])
             skeleton_stickman_joints[internal_joint_name].visibility = JointVisibility.VISIBLE
             skeleton_stickman_joints[internal_joint_name].score = 1  # TODO: Add possibility to add other score
         return skeleton_stickman_joints

@@ -2,39 +2,42 @@ from typing import List
 
 from nobos_commons.data_structures.human import Joint2D
 from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibility
-from nobos_commons.data_structures.skeletons.skeleton_stickman_joints import SkeletonStickmanJoints
+from nobos_commons.data_structures.skeletons.skeleton_stickman import SkeletonStickman
 from nobos_commons.utils.joint_helper import get_middle_joint
 
 
 class JointConverterCocoToStickman():
-    def get_convertered_joints(self, coco_joints: List[List[float]]) -> SkeletonStickmanJoints:
-        skeleton_stickman_joints: SkeletonStickmanJoints = self._get_skeleton_from_joints(coco_joints)
-        self._set_calculated_joints(skeleton_stickman_joints)
+    def get_convertered_joints(self, coco_joints: List[List[float]]) -> SkeletonStickman:
+        skeleton_stickman: SkeletonStickman = self._get_skeleton_from_joints(coco_joints)
+        self._set_calculated_joints(skeleton_stickman)
+        skeleton_stickman.auto_set_limbs_from_joints()
+        return skeleton_stickman
 
     # Private methods
 
-    def _get_skeleton_from_joints(self, coco_joints: List[List[float]]) -> SkeletonStickmanJoints:
-        skeleton_stickman_joints: SkeletonStickmanJoints = SkeletonStickmanJoints()
-        for coco_joint_id, coco_joint_name in self._coco_joint_names_ordered:
+    def _get_skeleton_from_joints(self, coco_joints: List[List[float]]) -> SkeletonStickman:
+        skeleton_stickman: SkeletonStickman = SkeletonStickman()
+        for coco_joint_id, coco_joint_name in enumerate(self._coco_joint_names_ordered):
             internal_joint_name = self._coco_stickman_mapping[coco_joint_name]
             coco_joint = coco_joints[coco_joint_id]
-            skeleton_stickman_joints[internal_joint_name].x = coco_joint[0]
-            skeleton_stickman_joints[internal_joint_name].y = coco_joint[1]
-            skeleton_stickman_joints[internal_joint_name].visibility = JointVisibility(coco_joint[2])
-            skeleton_stickman_joints[internal_joint_name].score = 1  # TODO: Add possibility to add other score
-        return skeleton_stickman_joints
+            skeleton_stickman.joints[internal_joint_name].x = int(coco_joint[0])
+            skeleton_stickman.joints[internal_joint_name].y = int(coco_joint[1])
+            skeleton_stickman.joints[internal_joint_name].visibility = JointVisibility(coco_joint[2])
+            skeleton_stickman.joints[internal_joint_name].score = 1  # TODO: Add possibility to add other score
+        skeleton_stickman.auto_set_limbs_from_joints()
+        return skeleton_stickman
 
-    def _set_calculated_joints(self, skeleton_stickman_joints: SkeletonStickmanJoints):
-        calculated_neck: Joint2D = get_middle_joint(joint_a=skeleton_stickman_joints.left_shoulder,
-                                                    joint_b=skeleton_stickman_joints.right_shoulder)
+    def _set_calculated_joints(self, skeleton_stickman: SkeletonStickman):
+        calculated_neck: Joint2D = get_middle_joint(joint_a=skeleton_stickman.joints.left_shoulder,
+                                                    joint_b=skeleton_stickman.joints.right_shoulder)
 
-        calculated_hip_center: Joint2D = get_middle_joint(joint_a=skeleton_stickman_joints.left_hip,
-                                                          joint_b=skeleton_stickman_joints.right_hip)
+        calculated_hip_center: Joint2D = get_middle_joint(joint_a=skeleton_stickman.joints.left_hip,
+                                                          joint_b=skeleton_stickman.joints.right_hip)
         if calculated_neck is not None:
-            skeleton_stickman_joints.neck.copy_from(calculated_neck)
+            skeleton_stickman.joints.neck.copy_from(calculated_neck)
 
         if calculated_hip_center is not None:
-            skeleton_stickman_joints.hip_center.copy_from(calculated_hip_center)
+            skeleton_stickman.joints.hip_center.copy_from(calculated_hip_center)
 
     # Members
 
