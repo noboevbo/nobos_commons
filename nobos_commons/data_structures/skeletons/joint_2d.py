@@ -4,10 +4,6 @@ from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibi
 class Joint2D(object):
     __slots__ = ['_num', '_name', 'x', 'y', 'score', 'visibility']
 
-    @property
-    def coordinates(self):
-        return [self.x, self.y]
-
     def __init__(self, num: int = -1, name: str = None, x: int = -1, y: int = -1, score: float = -1,
                  visibility: JointVisibility = JointVisibility.VISIBLE):
         """
@@ -26,9 +22,11 @@ class Joint2D(object):
         self.score: float = score
         self.visibility: JointVisibility = visibility
 
-    def copy_from(self, other: 'Joint2D'):
-        assert other.is_unassigned_joint or self.num == other.num, 'Joint numbers don\'t match'
-        assert other.is_unassigned_joint or self.name == other.name, 'Joint names don\'t match'
+    def copy_from(self, other: 'Joint2D', allow_different_num: bool = False, allow_different_name: bool = False):
+        if not allow_different_num:
+            assert other.is_unassigned_joint or self.num == other.num, 'Joint numbers don\'t match'
+        if not allow_different_name:
+            assert other.is_unassigned_joint or self.name == other.name, 'Joint names don\'t match'
         self.x = other.x
         self.y = other.y
         self.score = other.score

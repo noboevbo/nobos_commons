@@ -5,27 +5,6 @@ from nobos_commons.data_structures.skeletons.skeleton_joints_base import Skeleto
 
 
 class SkeletonCocoJoints(SkeletonJointsBase):
-    __dict__: Dict[str, Joint2D]
-    __slots__ = [
-        '_nose',
-        '_left_eye',
-        '_right_eye',
-        '_left_ear'
-        '_right_ear'
-        '_left_shoulder',
-        '_right_shoulder',
-        '_left_elbow',
-        '_right_elbow',
-        '_left_wrist',
-        '_right_wrist',
-        '_left_hip',
-        '_right_hip',
-        '_left_knee',
-        '_right_knee',
-        '_left_ankle',
-        '_right_ankle',
-    ]
-
     def __init__(self):
         """
         Implementation only works on Python 3.6+

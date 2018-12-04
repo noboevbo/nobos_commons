@@ -4,25 +4,6 @@ from nobos_commons.data_structures.skeletons.skeleton_coco_joints import Skeleto
 
 
 class SkeletonCocoLimbs(SkeletonLimbsBase):
-    __slots__ = [
-        '_nose_to_left_eye',
-        '_nose_to_right_eye',
-        '_left_eye_to_left_ear',
-        '_right_eye_to_right_ear',
-        '_left_ear_to_left_shoulder',
-        '_right_ear_to_right_shoulder',
-        '_left_shoulder_to_left_elbow',
-        '_right_shoulder_to_right_elbow',
-        '_left_elbow_to_left_wrist',
-        '_right_elbow_to_right_wrist',
-        '_left_shoulder_to_left_hip',
-        '_right_shoulder_to_right_hip',
-        '_left_hip_to_left_knee',
-        '_right_hip_to_right_knee',
-        '_left_knee_to_left_ankle',
-        '_right_knee_to_right_ankle'
-    ]
-
     def __init__(self, skeleton_joints: SkeletonCocoJoints):
         self._nose_to_left_eye: Limb2D = Limb2D(num=0,
                                                 joint_from=skeleton_joints.nose,

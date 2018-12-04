@@ -68,7 +68,7 @@ def get_human_pose_image(original_img: np.ndarray, human_data: ImageContentHuman
                 continue
             img = visualize_limb(img, limb, limb_color, limb_line_width, True)
         for joint_num, joint in enumerate(human.skeleton.joints):
-            cv2.circle(img, tuple(joint.coordinates), 5, joint_colors[joint_num].tuple_bgr, thickness=-1)
+            cv2.circle(img, (int(joint.x), int(joint.y)), 5, joint_colors[joint_num].tuple_bgr, thickness=-1)
     return img
 
 

@@ -4,29 +4,6 @@ from nobos_commons.data_structures.skeletons.skeleton_stickman_joints import Ske
 
 
 class SkeletonStickmanLimbs(SkeletonLimbsBase):
-    __slots__ = [
-        '_neck_to_right_shoulder'
-        '_neck_to_left_shoulder'
-        '_right_shoulder_to_right_elbow'
-        '_right_elbow_to_right_wrist'
-        '_left_shoulder_to_left_elbow'
-        '_left_elbow_to_left_wrist'
-        '_neck_to_hip_center'
-        '_hip_center_to_right_hip'
-        '_right_hip_to_right_knee'
-        '_right_knee_to_right_ankle'
-        '_hip_center_to_left_hip'
-        '_left_hip_to_left_knee'
-        '_left_knee_to_left_ankle'
-        '_neck_to_nose'
-        '_nose_to_right_eye'
-        '_right_eye_to_right_ear'
-        '_nose_to_left_eye'
-        '_left_eye_to_left_ear'
-        '_right_shoulder_to_right_ear'
-        '_left_shoulder_to_left_ear'
-    ]
-
     def __init__(self, skeleton_joints: SkeletonStickmanJoints):
         self._neck_to_right_shoulder: Limb2D = Limb2D(num=0,
                                                       joint_from=skeleton_joints.neck,

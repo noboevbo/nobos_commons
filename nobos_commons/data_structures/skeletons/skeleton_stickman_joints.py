@@ -1,33 +1,8 @@
-from typing import Dict
-
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.skeleton_joints_base import SkeletonJointsBase
 
 
 class SkeletonStickmanJoints(SkeletonJointsBase):
-    __dict__: Dict[str, Joint2D]
-    __slots__ = [
-        '_nose'
-        '_neck'
-        '_right_shoulder'
-        '_right_elbow'
-        '_right_wrist'
-        '_left_shoulder'
-        '_left_elbow'
-        '_left_wrist'
-        '_right_hip'
-        '_right_knee'
-        '_right_ankle'
-        '_left_hip'
-        '_left_knee'
-        '_left_ankle'
-        '_right_eye'
-        '_left_eye'
-        '_right_ear'
-        '_left_ear'
-        '_hip_center'
-    ]
-
     def __init__(self):
         """
         Implementation only works on Python 3.6+

@@ -16,7 +16,7 @@ class JointConverterCocoToStickman():
     def _get_skeleton_from_joints(self, skeleton_coco: SkeletonCoco) -> SkeletonStickman:
         skeleton_stickman: SkeletonStickman = SkeletonStickman()
         for joint in skeleton_coco.joints:
-            skeleton_stickman.joints[joint.name].copy_from(joint)
+            skeleton_stickman.joints[joint.name].copy_from(joint, allow_different_num=True)
         skeleton_stickman.auto_set_limbs_from_joints()
         return skeleton_stickman
 

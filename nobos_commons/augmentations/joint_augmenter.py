@@ -22,7 +22,7 @@ class JointAugmenter(object):
         augmented_joints_coords: List[List[int]] = []
 
         for joint in joints:
-            augmented_joints_coords.append(joint.coordinates)
+            augmented_joints_coords.append([joint.x, joint.y])
         augmented_joints_coords = self.get_augmented_joint_list(augmented_joints_coords)
 
         augmented_joints: List[Joint2D] = []
