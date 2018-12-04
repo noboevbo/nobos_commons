@@ -4,7 +4,6 @@ from nobos_commons.data_structures.human import Joint2D
 from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibility
 from nobos_commons.data_structures.skeletons.skeleton_stickman import SkeletonStickman
 from nobos_commons.data_structures.skeletons.skeleton_stickman_joints import SkeletonStickmanJoints
-from nobos_commons.utils.human_helper import get_human_from_joints
 from nobos_commons.utils.human_surveyor import HumanSurveyor
 from nobos_commons.utils.joint_helper import get_middle_joint
 
@@ -13,12 +12,14 @@ class JointConverterJhmdbToStickman():
     def __init__(self, human_surveyor: HumanSurveyor):
         self.human_surveyor = human_surveyor
 
-    def get_convertered_joints(self, jhmdb_joints: List[List[float]]) -> SkeletonStickmanJoints:
+    def get_convertered_joints(self, jhmdb_joints: List[List[float]]) -> SkeletonStickman:
         skeleton_stickman_joints: SkeletonStickmanJoints = self._get_skeleton_from_joints(jhmdb_joints)
         skeleton_stickman = SkeletonStickman()
         skeleton_stickman.joints.copy_from_other(skeleton_stickman_joints)
         skeleton_stickman.auto_set_limbs_from_joints()
         self._set_calculated_joints(skeleton_stickman)
+        skeleton_stickman.auto_set_limbs_from_joints()
+        return skeleton_stickman
 
     # Private methods
 
@@ -43,10 +44,7 @@ class JointConverterJhmdbToStickman():
         if calculated_hip_center is not None:
             skeleton_stickman.joints.hip_center.copy_from(calculated_hip_center)
 
-        human_height = self.human_surveyor.get_human_height(skeleton_stickman.limbs)
-
-        # Nose
-
+        # TODO: Calculate eyes and ears by body metrics and camera viewpoint
         # Left Eye
 
         # Left Ear
@@ -54,17 +52,6 @@ class JointConverterJhmdbToStickman():
         # Right Eye
 
         # Right Ear
-
-        # calculated_neck: Joint2D = get_middle_joint(joint_a=skeleton_stickman_joints.left_shoulder,
-        #                                             joint_b=skeleton_stickman_joints.right_shoulder)
-        #
-        # calculated_hip_center: Joint2D = get_middle_joint(joint_a=skeleton_stickman_joints.left_hip,
-        #                                                   joint_b=skeleton_stickman_joints.right_hip)
-        # if calculated_neck is not None:
-        #     skeleton_stickman_joints.neck.copy_from(calculated_neck)
-        #
-        # if calculated_hip_center is not None:
-        #     skeleton_stickman_joints.hip_center.copy_from(calculated_hip_center)
 
     # Members
 
@@ -119,8 +106,3 @@ joint = [[101.71333523, 81.88543806],
          [112.45755869, 137.48740878],
          [88.07904952, 197.41415193],
          [84.16994796, 197.65646189]]
-
-a = JointConverterJhmdbToStickman(HumanSurveyor())
-
-b = a.get_convertered_joints(joint)
-v=1
