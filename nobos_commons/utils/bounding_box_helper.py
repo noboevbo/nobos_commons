@@ -4,14 +4,15 @@ import sys
 from nobos_commons.data_structures.bounding_box import BoundingBox
 from nobos_commons.data_structures.dimension import Coord2D, ImageSize
 from nobos_commons.data_structures.human import HumanPoseResult
+from nobos_commons.data_structures.skeletons.skeleton_joints_base import SkeletonJointsBase
 
 
-def get_human_bounding_box_from_joints(human: HumanPoseResult, image_size: ImageSize):
+def get_human_bounding_box_from_joints(joints: SkeletonJointsBase, image_size: ImageSize):
     min_x = sys.maxsize
     min_y = sys.maxsize
     max_x = 0
     max_y = 0
-    for joint in human.skeleton.joints:
+    for joint in joints:
         x = joint.x
         y = joint.y
         min_x = min_x if x > min_x else x
@@ -36,8 +37,7 @@ def get_human_bounding_box_from_joints(human: HumanPoseResult, image_size: Image
     max_y = max_y if max_y < image_size.height else image_size.height
 
     return BoundingBox(top_left=Coord2D(x=int(min_x), y=int(min_y)),
-                       bottom_right=Coord2D(x=int(max_x), y=int(max_y)), label="person",
-                       uid=human.uid)
+                       bottom_right=Coord2D(x=int(max_x), y=int(max_y)), label="person")
 
 
 def get_random_bounding_box(width, height, bb_min_size=(5, 5)):
