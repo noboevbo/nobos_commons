@@ -1,11 +1,13 @@
 from nobos_commons.data_structures.human import Joint2D
+from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 from nobos_commons.data_structures.skeletons.skeleton_coco import SkeletonCoco
 from nobos_commons.data_structures.skeletons.skeleton_stickman import SkeletonStickman
+from nobos_commons.tools.skeleton_converters.skeleton_converter_base import SkeletonConverter
 from nobos_commons.utils.joint_helper import get_middle_joint
 
 
-class SkeletonConverterCocoToStickman():
-    def get_convertered_joints(self, skeleton_coco: SkeletonCoco) -> SkeletonStickman:
+class SkeletonConverterCocoToStickman(SkeletonConverter):
+    def get_converted_skeleton(self, skeleton_coco: SkeletonCoco) -> SkeletonStickman:
         skeleton_stickman: SkeletonStickman = self._get_skeleton_from_joints(skeleton_coco)
         self._set_calculated_joints(skeleton_stickman)
         skeleton_stickman.auto_set_limbs_from_joints()

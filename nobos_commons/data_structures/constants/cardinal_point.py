@@ -18,3 +18,22 @@ class CardinalPoint(Enum):
     WEST_NORTHWEST = 292
     NORTHWEST = 315
     NORTH_NORTHWEST = 337
+
+
+class CardinalPointAbbreviations(Enum):
+    N = CardinalPoint.NORTH
+    NNE = CardinalPoint.NORTH_NORTHEAST
+    NE = CardinalPoint.NORTHEAST
+    ENE = CardinalPoint.EAST_NORTHEAST
+    E = CardinalPoint.EAST
+    ESE = CardinalPoint.EAST_SOUTHEAST
+    SE = CardinalPoint.SOUTHEAST
+    SSE = CardinalPoint.SOUTH_SOUTHEAST
+    S = CardinalPoint.SOUTH
+    SSW = CardinalPoint.SOUTH_SOUTHWEST
+    SW = CardinalPoint.SOUTHWEST
+    WSW = CardinalPoint.WEST_SOUTHWEST
+    W = CardinalPoint.WEST
+    WNW = CardinalPoint.WEST_NORTHWEST
+    NW = CardinalPoint.NORTHWEST
+    NNW = CardinalPoint.NORTH_NORTHWEST

@@ -1,15 +1,13 @@
 from nobos_commons.data_structures.human import Joint2D
+from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 from nobos_commons.data_structures.skeletons.skeleton_jhmdb import SkeletonJhmdb
 from nobos_commons.data_structures.skeletons.skeleton_stickman import SkeletonStickman
-from nobos_commons.utils.human_surveyor import HumanSurveyor
+from nobos_commons.tools.skeleton_converters.skeleton_converter_base import SkeletonConverter
 from nobos_commons.utils.joint_helper import get_middle_joint
 
 
-class SkeletonConverterJhmdbToStickman():
-    # def __init__(self, human_surveyor: HumanSurveyor):
-    #     self.human_surveyor = human_surveyor
-
-    def get_convertered_joints(self, skeleton_jhmdb: SkeletonJhmdb) -> SkeletonStickman:
+class SkeletonConverterJhmdbToStickman(SkeletonConverter):
+    def get_converted_skeleton(self, skeleton_jhmdb: SkeletonJhmdb) -> SkeletonStickman:
         skeleton_stickman: SkeletonStickman = self._get_skeleton_from_joints(skeleton_jhmdb)
         skeleton_stickman.auto_set_limbs_from_joints()
         self._set_calculated_joints(skeleton_stickman)

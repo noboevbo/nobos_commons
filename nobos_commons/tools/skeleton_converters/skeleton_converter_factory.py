@@ -5,6 +5,7 @@ from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 from nobos_commons.data_structures.skeletons.skeleton_coco import SkeletonCoco
 from nobos_commons.data_structures.skeletons.skeleton_jhmdb import SkeletonJhmdb
 from nobos_commons.data_structures.skeletons.skeleton_stickman import SkeletonStickman
+from nobos_commons.tools.skeleton_converters.skeleton_converter_base import SkeletonConverter
 from nobos_commons.tools.skeleton_converters.skeleton_converter_coco_to_stickman import SkeletonConverterCocoToStickman
 from nobos_commons.tools.skeleton_converters.skeleton_converter_jhmdb_to_stickman import \
     SkeletonConverterJhmdbToStickman
@@ -26,7 +27,7 @@ class SkeletonConverterFactory(metaclass=Singleton):
             (SkeletonJhmdb, SkeletonStickman): SkeletonConverterJhmdbToStickman()
         }
 
-    def get_skeleton_converter(self, skeleton_type_a: Type[SkeletonBase], skeleton_type_b: Type[SkeletonBase]):
+    def get_skeleton_converter(self, skeleton_type_a: Type[SkeletonBase], skeleton_type_b: Type[SkeletonBase]) -> SkeletonConverter:
         assert (skeleton_type_a, skeleton_type_b) in self.__skeleton_converter_definition, \
             'No converter found for types {0} and {1}'.format(skeleton_type_a, skeleton_type_b)
         return self.__skeleton_converter_definition[(skeleton_type_a, skeleton_type_b)]
