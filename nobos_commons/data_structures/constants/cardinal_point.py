@@ -20,7 +20,7 @@ class CardinalPoint(Enum):
     NORTH_NORTHWEST = 337
 
 
-class CardinalPointAbbreviations(Enum):
+class CardinalPointAbbreviation(Enum):
     N = CardinalPoint.NORTH
     NNE = CardinalPoint.NORTH_NORTHEAST
     NE = CardinalPoint.NORTHEAST
