@@ -6,8 +6,8 @@ from nobos_commons.utils.joint_helper import get_middle_joint
 
 
 class SkeletonConverterJhmdbToStickman():
-    def __init__(self, human_surveyor: HumanSurveyor):
-        self.human_surveyor = human_surveyor
+    # def __init__(self, human_surveyor: HumanSurveyor):
+    #     self.human_surveyor = human_surveyor
 
     def get_convertered_joints(self, skeleton_jhmdb: SkeletonJhmdb) -> SkeletonStickman:
         skeleton_stickman: SkeletonStickman = self._get_skeleton_from_joints(skeleton_jhmdb)
