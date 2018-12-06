@@ -53,8 +53,3 @@ class SkeletonCoco(SkeletonBase):
         Color(r=255, g=255, b=255),  # left_knee_to_left_ankle
         Color(r=255, g=255, b=255),  # right_knee_to_right_ankle
     ]
-
-test = SkeletonCoco.joints
-test2 = SkeletonCoco().joints
-
-a = 1
