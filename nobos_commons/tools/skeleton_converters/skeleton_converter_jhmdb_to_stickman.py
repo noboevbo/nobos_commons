@@ -18,7 +18,8 @@ class SkeletonConverterJhmdbToStickman(SkeletonConverter):
     def _get_skeleton_from_joints(self, skeleton_jhmdb: SkeletonJhmdb) -> SkeletonStickman:
         skeleton_stickman: SkeletonStickman = SkeletonStickman()
         for joint in skeleton_jhmdb.joints:
-            if joint.name not in skeleton_stickman.joints:
+            v = skeleton_stickman.joints.names
+            if joint.name not in skeleton_stickman.joints.names:
                 continue
             skeleton_stickman.joints[joint.name].copy_from(joint, allow_different_num=True)
         #  Head -> Nose

@@ -5,6 +5,16 @@ from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 
 
 class SkeletonLimbsBase(BaseIterablePropertyClass[Limb2D]):
+    __names: List[str] = None
+
+    @property
+    def names(self) -> List[str]:
+        if self.__names is None:
+            self.__names = []
+            for key in self.__dict__.keys():
+                self.__names.append(key[1:])
+        return self.__names
+
     def copy_from_list(self, limb_list: List[Limb2D]):
         """
         Takes limbs from a lists and copies their parameters to the SkeletonLimbs. It does not allow for duplicated

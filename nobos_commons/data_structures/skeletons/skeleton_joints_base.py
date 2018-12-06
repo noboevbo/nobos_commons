@@ -6,6 +6,15 @@ from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 
 class SkeletonJointsBase(BaseIterablePropertyClass[Joint2D]):
     __dict__: Dict[str, Joint2D]
+    __names: List[str] = None
+
+    @property
+    def names(self) -> List[str]:
+        if self.__names is None:
+            self.__names = []
+            for key in self.__dict__.keys():
+                self.__names.append(key[1:])
+        return self.__names
 
     def copy_from_list(self, joint_list: List[Joint2D]):
         """

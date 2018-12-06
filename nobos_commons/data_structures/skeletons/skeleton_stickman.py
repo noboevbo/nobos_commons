@@ -5,15 +5,15 @@ from nobos_commons.data_structures.skeletons.skeleton_stickman_limbs import Skel
 
 
 class SkeletonStickman(SkeletonBase):
-    _joints: SkeletonStickmanJoints = SkeletonStickmanJoints()
-    _limbs: SkeletonStickmanLimbs = SkeletonStickmanLimbs(_joints)
+    joints: SkeletonStickmanJoints = SkeletonStickmanJoints()
+    limbs: SkeletonStickmanLimbs = SkeletonStickmanLimbs(joints)
 
     def __init__(self):
         """
         Override class attributes with instance attributes
         """
-        self._joints: SkeletonStickmanJoints = SkeletonStickmanJoints()
-        self._limbs: SkeletonStickmanLimbs = SkeletonStickmanLimbs(self._joints)
+        self.joints: SkeletonStickmanJoints = SkeletonStickmanJoints()
+        self.limbs: SkeletonStickmanLimbs = SkeletonStickmanLimbs(self.joints)
 
     joint_colors = [
         Color(r=192, g=192, b=192),  # ("Nose", 0),
