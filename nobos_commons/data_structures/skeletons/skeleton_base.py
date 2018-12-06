@@ -5,14 +5,36 @@ from nobos_commons.data_structures.skeletons.skeleton_joints_base import Skeleto
 from nobos_commons.data_structures.skeletons.skeleton_limbs_base import SkeletonLimbsBase
 
 
-class SkeletonBase(object):
+class SkeletonMeta(type):
+    _joints: SkeletonJointsBase
+    _limbs: SkeletonLimbsBase
+
+    @property
+    def joints(cls) -> SkeletonJointsBase:
+        return cls._joints
+
+    @property
+    def limbs(cls) -> SkeletonLimbsBase:
+        return cls._limbs
+
+
+class SkeletonBase(metaclass=SkeletonMeta):
     """
     The abstract skeleton class, needs to be implemented by concrete instances.
     """
-    joints: SkeletonJointsBase
-    limbs: SkeletonLimbsBase
+    _joints: SkeletonJointsBase
+    _limbs: SkeletonLimbsBase
+
     limb_colors: List[Color]
     joint_colors: List[Color]
+
+    @property
+    def joints(self) -> SkeletonJointsBase:
+        return self._joints
+
+    @property
+    def limbs(self) -> SkeletonLimbsBase:
+        return self._limbs
 
     def auto_set_limbs_from_joints(self):
         """

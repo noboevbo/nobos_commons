@@ -5,8 +5,16 @@ from nobos_commons.data_structures.skeletons.skeleton_coco_limbs import Skeleton
 
 
 class SkeletonCoco(SkeletonBase):
-    joints: SkeletonCocoJoints = SkeletonCocoJoints()
-    limbs: SkeletonCocoLimbs = SkeletonCocoLimbs(joints)
+    _joints: SkeletonCocoJoints = SkeletonCocoJoints()
+    _limbs: SkeletonCocoLimbs = SkeletonCocoLimbs(_joints)
+
+    def __init__(self):
+        """
+        Override class attributes with instance attributes
+        """
+        self._joints: SkeletonCocoJoints = SkeletonCocoJoints()
+        self._limbs: SkeletonCocoLimbs = SkeletonCocoLimbs(self._joints)
+
     joint_colors = [
         Color(r=0, g=0, b=0),  # Nose
         Color(r=0, g=0, b=0),  # LEye
@@ -45,3 +53,8 @@ class SkeletonCoco(SkeletonBase):
         Color(r=255, g=255, b=255),  # left_knee_to_left_ankle
         Color(r=255, g=255, b=255),  # right_knee_to_right_ankle
     ]
+
+test = SkeletonCoco.joints
+test2 = SkeletonCoco().joints
+
+a = 1

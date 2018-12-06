@@ -5,8 +5,16 @@ from nobos_commons.data_structures.skeletons.skeleton_jhmdb_limbs import Skeleto
 
 
 class SkeletonJhmdb(SkeletonBase):
-    joints: SkeletonJhmdbJoints = SkeletonJhmdbJoints()
-    limbs: SkeletonJhmdbLimbs = SkeletonJhmdbLimbs(joints)
+    _joints: SkeletonJhmdbJoints = SkeletonJhmdbJoints()
+    _limbs: SkeletonJhmdbLimbs = SkeletonJhmdbLimbs(_joints)
+
+    def __init__(self):
+        """
+        Override class attributes with instance attributes
+        """
+        self._joints: SkeletonJhmdbJoints = SkeletonJhmdbJoints()
+        self._limbs: SkeletonJhmdbLimbs = SkeletonJhmdbLimbs(self._joints)
+
     joint_colors = [
         Color(r=0, g=0, b=0),  # Nose
         Color(r=0, g=0, b=0),  # LEye
