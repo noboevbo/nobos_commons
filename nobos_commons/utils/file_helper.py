@@ -5,6 +5,8 @@ import re
 import shutil
 from typing import List, Dict
 
+from nobos_commons.tools.log_handler import logger
+
 
 def is_filename_matching_regex(filename: str, regex: str) -> bool:
     if regex is None:
@@ -21,6 +23,21 @@ def extract_files(source_dir: str, target_dir: str, regex: str = None):
         full_file_name = os.path.join(source_dir, filename)
         if os.path.isfile(full_file_name):
             shutil.copy(full_file_name, target_dir)
+
+
+def transfer_files(src: str, dst: str, move_src_data: bool = False):
+    """
+    Copies or moves files recursively from one directory to another.
+    :param src: source directory
+    :param dst: target directory
+    :param move_src_data: True if src should be moved, False if it should be copied
+    """
+    if move_src_data:
+        logger.info('Move {0} to {1}'.format(src, dst))
+        shutil.move(src, dst)
+    else:
+        logger.info('Copy {0} to {1}'.format(src, dst))
+        shutil.copytree(src, dst)
 
 
 def get_img_paths_from_folder(img_dir: str) -> List[str]:
