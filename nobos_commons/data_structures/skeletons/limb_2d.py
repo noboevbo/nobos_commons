@@ -26,6 +26,10 @@ class Limb2D(object):
         return self._num
 
     @property
+    def name(self) -> str:
+        return "{0}_to_{1}".format(self.joint_from.name, self.joint_to.name)
+
+    @property
     def joint_from(self) -> Joint2D:
         return self._joint_from
 

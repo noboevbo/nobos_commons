@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List, Dict, Any
 
 from nobos_commons.data_structures.base_iterable_property_class import BaseIterablePropertyClass
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
@@ -46,3 +46,17 @@ class SkeletonJointsBase(BaseIterablePropertyClass[Joint2D]):
             if joint.is_set:
                 count += 1
         return count
+
+    # Serialization
+
+    def to_dict(self) -> Dict[str, Any]:
+        out_dict: Dict[str, Any] = {}
+        for joint in self:
+            out_dict[joint.name] = joint.to_dict()
+        return out_dict
+
+    def copy_from_dict(self, in_dict: Dict[str, Any]):
+        joint_list: List[Joint2D] = []
+        for joint_name, joint_dict in in_dict.items():
+            joint_list.append(Joint2D.from_dict(joint_dict))
+        self.copy_from_list(joint_list)

@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Dict, Any
 
 from nobos_commons.data_structures.base_iterable_property_class import BaseIterablePropertyClass
 from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
@@ -44,3 +44,15 @@ class SkeletonLimbsBase(BaseIterablePropertyClass[Limb2D]):
             if limb.is_set:
                 count += 1
         return count
+
+    def to_dict(self) -> Dict[str, Any]:
+        out_dict: Dict[str, Any] = {}
+        for limb in self:
+            out_dict[str(limb.name)] = limb.to_dict()
+        return out_dict
+
+    def copy_from_dict(self, in_dict: Dict[str, Any]):
+        limb_list: List[Limb2D] = []
+        for limb_name, limb_dict in in_dict.items():
+            limb_list.append(Limb2D.from_dict(limb_dict))
+        self.copy_from_list(limb_list)
