@@ -13,7 +13,7 @@ class DatasetSplit(object):
     def to_dict(self) -> Dict[str, Any]:
         return {
             'dataset_name': self.dataset_name,
-            'dataset_split_type': self.dataset_split_type
+            'dataset_split_type': self.dataset_split_type.name
         }
 
     @staticmethod
