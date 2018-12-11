@@ -19,4 +19,4 @@ class DatasetSplit(object):
     @staticmethod
     def from_dict(dict_in: Dict[str, Any]) -> 'DatasetSplit':
         return DatasetSplit(dataset_name=dict_in['dataset_name'],
-                            dataset_split_type=dict_in['dataset_split_type'])
+                            dataset_split_type=DatasetSplitType[dict_in['dataset_split_type']])
