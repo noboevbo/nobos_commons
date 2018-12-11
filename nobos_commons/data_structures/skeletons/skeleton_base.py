@@ -28,9 +28,9 @@ class SkeletonBase(object):
     def to_dict(self) -> Dict[str, Any]:
         return {
             'joints': self.joints.to_dict(),
-            'limbs': self.limbs.to_dict()
+            # 'limbs': self.limbs.to_dict()
         }
 
     def copy_from_dict(self, in_dict: Dict[str, Any]):
         self.joints.copy_from_dict(in_dict['joints'])
-        self.limbs.copy_from_dict(in_dict['limbs'])
+        # self.limbs.copy_from_dict(in_dict['limbs'])
