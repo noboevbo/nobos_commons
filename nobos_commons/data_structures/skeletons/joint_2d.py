@@ -67,7 +67,7 @@ class Joint2D(object):
             'x': self.x,
             'y': self.y,
             'score': self.score,
-            'visibility': self.visibility
+            'visibility': self.visibility.name
         }
 
     @staticmethod
