@@ -1,8 +1,10 @@
+from typing import Dict, Any
+
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 
 
 class Limb2D(object):
-    def __init__(self, num: int, joint_from: Joint2D, joint_to: Joint2D, score: int = -1):
+    def __init__(self, num: int, joint_from: Joint2D, joint_to: Joint2D, score: float = -1):
         __slots__ = ['_num', '_joint_from', '_joint_to', 'score']
         """
         :param num: The number of the limb in the skeleton configuration
@@ -46,3 +48,20 @@ class Limb2D(object):
         self._joint_from.copy_from(other.joint_from)
         self._joint_to.copy_from(other.joint_to)
         self.score = other.score
+
+    # Serialization
+
+    def to_dict(self):
+        return {
+            'num': self._num,
+            'joint_from': self.joint_from.to_dict(),
+            'joint_to': self.joint_to.to_dict(),
+            'score': self.score
+        }
+
+    @staticmethod
+    def from_dict(joint_2d_dict: Dict[str, Any]) -> 'Limb2D':
+        return Limb2D(num=joint_2d_dict['num'],
+                      joint_from=Joint2D.from_dict(joint_2d_dict['joint_from']),
+                      joint_to=Joint2D.from_dict(joint_2d_dict['joint_to']),
+                      score=float(joint_2d_dict['score']))

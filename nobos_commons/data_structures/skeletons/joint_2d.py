@@ -1,3 +1,5 @@
+from typing import Dict, Any
+
 from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibility
 
 
@@ -55,3 +57,24 @@ class Joint2D(object):
         self.x = -1
         self.y = -1
         self.score = -1
+
+    # Serialization
+
+    def to_dict(self):
+        return {
+            'num': self._num,
+            'name': self._name,
+            'x': self.x,
+            'y': self.y,
+            'score': self.score,
+            'visibility': self.visibility
+        }
+
+    @staticmethod
+    def from_dict(joint_2d_dict: Dict[str, Any]) -> 'Joint2D':
+        return Joint2D(num=joint_2d_dict['num'],
+                       name=joint_2d_dict['name'],
+                       x=int(joint_2d_dict['x']),
+                       y=int(joint_2d_dict['y']),
+                       score=float(joint_2d_dict['score']),
+                       visibility=JointVisibility(joint_2d_dict['visibility']))
