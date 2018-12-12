@@ -27,8 +27,6 @@ def get_limbs_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[Skelet
         if not joint_from.is_set or not joint_to.is_set:
             limbs[limb.num].reset()
             continue
-        score_by_joints = (joint_from.score + joint_to.score) / 2
         limbs[limb.num].joint_from.copy_from(joint_from)
         limbs[limb.num].joint_to.copy_from(joint_to)
-        limbs[limb.num].score = score_by_joints
     return limbs

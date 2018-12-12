@@ -15,7 +15,7 @@ class Limb2D(object):
         self._num: int = num
         self._joint_from: Joint2D = joint_from
         self._joint_to: Joint2D = joint_to
-        self.score: float = score
+        self._score: float = score
 
     @property
     def matched_score(self) -> float:
@@ -38,20 +38,26 @@ class Limb2D(object):
         return self._joint_to
 
     @property
+    def score(self) -> float:
+        if self._score is -1:
+            self._score = self.joint_from.score + self.joint_to.score / 2
+        return self._score
+
+    @property
     def is_set(self) -> bool:
-        return self.score != -1
+        return self.joint_from.is_set and self.joint_to.is_set
 
     def reset(self):
         """
         Sets the limb to the default (unset) state.
         """
-        self.score = -1
+        self._score = -1
 
     def copy_from(self, other: 'Limb2D'):
         assert self.num == other.num, 'Limb numbers don\'t match'
         self._joint_from.copy_from(other.joint_from)
         self._joint_to.copy_from(other.joint_to)
-        self.score = other.score
+        self._score = other.score
 
     # Serialization
 

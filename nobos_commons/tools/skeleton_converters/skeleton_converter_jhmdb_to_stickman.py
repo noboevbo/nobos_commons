@@ -9,7 +9,6 @@ from nobos_commons.utils.joint_helper import get_middle_joint
 class SkeletonConverterJhmdbToStickman(SkeletonConverter):
     def get_converted_skeleton(self, skeleton_jhmdb: SkeletonJhmdb) -> SkeletonStickman:
         skeleton_stickman: SkeletonStickman = self._get_skeleton_from_joints(skeleton_jhmdb)
-        skeleton_stickman.auto_set_limbs_from_joints()
         self._set_calculated_joints(skeleton_stickman)
         return skeleton_stickman
 
@@ -34,8 +33,6 @@ class SkeletonConverterJhmdbToStickman(SkeletonConverter):
                                                           joint_b=skeleton_stickman.joints.right_hip)
         if calculated_hip_center is not None:
             skeleton_stickman.joints.hip_center.copy_from(calculated_hip_center)
-
-        skeleton_stickman.auto_set_limbs_from_joints()
 
         # TODO: Calculate eyes and ears by body metrics and camera viewpoint
         # Left Eye
