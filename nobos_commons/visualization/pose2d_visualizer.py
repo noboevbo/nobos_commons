@@ -3,6 +3,7 @@ from typing import List, Dict
 
 import cv2
 import numpy as np
+from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 
 from nobos_commons.data_structures.color import Color, Colors
 from nobos_commons.data_structures.human import ImageContentHumans
@@ -71,6 +72,23 @@ def get_human_pose_image(original_img: np.ndarray, human_data: ImageContentHuman
             cv2.circle(img, (int(joint.x), int(joint.y)), 5, joint_colors[joint_num].tuple_bgr, thickness=-1)
     return img
 
+
+def get_visualized_skeleton(original_img: np.ndarray, skeleton: SkeletonBase):
+    """
+    Draws the skeletons joints and limbs in the image.
+    :param original_img: The original image
+    :param skeleton: The skeleton to be visualized
+    :return: A copy of the image with the visualized skeleton
+    """
+    img = original_img.copy()
+    limb_line_width = 4
+    for limb_num, limb in enumerate(skeleton.limbs):
+        if not limb.is_set:
+            continue
+        img = visualize_limb(img, limb, skeleton.limb_colors[limb_num], limb_line_width, write_in_original_image=True)
+    for joint_num, joint in enumerate(skeleton.joints):
+        cv2.circle(img, (int(joint.x), int(joint.y)), 5, skeleton.joint_colors[joint_num].tuple_bgr, thickness=-1)
+    return img
 
 def visualize_limb(original_img: np.ndarray, limb: Limb2D, limb_color: Color, line_width: int = 4,
                    write_in_original_image: bool = False):

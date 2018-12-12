@@ -39,7 +39,7 @@ class Limb2D(object):
 
     @property
     def score(self) -> float:
-        if self._score is -1:
+        if self._score == -1:
             self._score = self.joint_from.score + self.joint_to.score / 2
         return self._score
 
