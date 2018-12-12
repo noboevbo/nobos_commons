@@ -24,7 +24,7 @@ class HumanPoseResult(object):
         """
         Contains pose information about a human from within a image
         :param joints: The joints in the skeleton of the human
-        :param limbs: The limbs in the skeleton of the human # TODO is ugly because not existing limbs will be placed in this list with None ...
+        :param limbs: The limbs in the skeleton of the human # TODO is ugly because not existing scalimbs will be placed in this list with None ...
         :param score: The combined score of joints and limbs of the given human
         """
         self.skeleton = skeleton

@@ -77,4 +77,4 @@ class Joint2D(object):
                        x=int(joint_2d_dict['x']),
                        y=int(joint_2d_dict['y']),
                        score=float(joint_2d_dict['score']),
-                       visibility=JointVisibility(joint_2d_dict['visibility']))
+                       visibility=JointVisibility[joint_2d_dict['visibility']])
