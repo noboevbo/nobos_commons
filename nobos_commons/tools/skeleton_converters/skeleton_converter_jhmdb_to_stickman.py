@@ -33,6 +33,12 @@ class SkeletonConverterJhmdbToStickman(SkeletonConverter):
         if calculated_hip_center is not None:
             skeleton_stickman.joints.hip_center.copy_from(calculated_hip_center)
 
+        # Neck
+        calculated_neck: Joint2D = get_middle_joint(joint_a=skeleton_stickman.joints.left_shoulder,
+                                                    joint_b=skeleton_stickman.joints.right_shoulder)
+        if calculated_neck is not None:
+            skeleton_stickman.joints.neck.copy_from(calculated_neck)
+
         # TODO: Calculate eyes and ears by body metrics and camera viewpoint
         # Left Eye
 
@@ -78,7 +84,6 @@ class SkeletonConverterJhmdbToStickman(SkeletonConverter):
     #     'L_Ankle': 'left_ankle',
     #     'R_Ankle': 'right_ankle'
     # }
-
 
 # joint = [[101.71333523, 81.88543806],
 #          [76.00189939, 114.05769629],

@@ -4,19 +4,19 @@ from nobos_commons.data_structures.constants.dataset_slit_type import DatasetSpl
 
 
 class DatasetSplit(object):
-    __slots__ = ['dataset_name', 'dataset_split_type']
+    __slots__ = ['dataset_name', 'split_type']
 
-    def __init__(self, dataset_name: str, dataset_split_type: DatasetSplitType):
+    def __init__(self, dataset_name: str, split_type: DatasetSplitType):
         self.dataset_name = dataset_name
-        self.dataset_split_type = dataset_split_type
+        self.split_type = split_type
 
     def to_dict(self) -> Dict[str, Any]:
         return {
             'dataset_name': self.dataset_name,
-            'dataset_split_type': self.dataset_split_type.name
+            'split_type': self.split_type.name
         }
 
     @staticmethod
     def from_dict(dict_in: Dict[str, Any]) -> 'DatasetSplit':
         return DatasetSplit(dataset_name=dict_in['dataset_name'],
-                            dataset_split_type=DatasetSplitType[dict_in['dataset_split_type']])
+                            split_type=DatasetSplitType[dict_in['split_type']])
