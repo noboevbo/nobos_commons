@@ -1,10 +1,7 @@
-import uuid
-from typing import List, Dict
+from typing import List
 
 from nobos_commons.data_structures.bounding_box import BoundingBox
 from nobos_commons.data_structures.dimension import Vec3D, Vec2D
-from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
-from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 from nobos_commons.utils.bounding_box_helper import get_human_bounding_box_from_joints
 
@@ -43,23 +40,6 @@ class Human(object):
     @bounding_box.setter
     def bounding_box(self, bounding_box: BoundingBox):
         self._bounding_box = bounding_box
-
-
-
-class ImageContentHumans(object):
-    __slots__ = ['img_path', 'humans', 'straying_joints', 'straying_limbs']
-
-    def __init__(self, humans: List[Human] = [], straying_joints: Dict[int, List[Joint2D]] = {}, straying_limbs: Dict[int, List[Limb2D]] = {}):
-        """
-        Contains all human poses recognized in the given image
-        :param img_path: The filepath of the image
-        :param humans: The human poses contained in the image
-        :param straying_joints: Joints which are recognized but not mapped to a human
-        :param straying_limbs: Limbs which are recognized but not mapped to a human
-        """
-        self.humans = humans
-        self.straying_joints = straying_joints
-        self.straying_limbs = straying_limbs
 
 
 class HumanMetadata(object):

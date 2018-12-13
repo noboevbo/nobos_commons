@@ -1,5 +1,4 @@
-from nobos_commons.data_structures.human import Joint2D
-from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
+from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.skeleton_coco import SkeletonCoco
 from nobos_commons.data_structures.skeletons.skeleton_stickman import SkeletonStickman
 from nobos_commons.tools.skeleton_converters.skeleton_converter_base import SkeletonConverter

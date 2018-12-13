@@ -3,72 +3,69 @@ from typing import List, Dict
 
 import cv2
 import numpy as np
+
+from nobos_commons.data_structures.human import Human
 from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 
 from nobos_commons.data_structures.color import Color, Colors
-from nobos_commons.data_structures.human import ImageContentHumans
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 
 
-def visualize_human_pose(img: np.ndarray, human_data: ImageContentHumans, limb_colors: [], joint_colors: [],
-                         wait_for_ms: int = 0, min_limb_score_to_show: float = 0.4):
+def visualize_human_pose(img: np.ndarray, humans: List[Human], wait_for_ms: int = 0, min_limb_score_to_show: float = 0.4):
     """
     Visualizes all human skeletons and straying joints / limbs in the image and displays the image.
-    :param original_img: The original image
-    :param human_data: The human content in the image
+    :param img: The original image
+    :param humans: The human content in the image
     :param limb_colors: The colors of the limbs to visualize
     :param joint_colors: The colors of the joints to visualize
     :param min_limb_score_to_show: The minimum score of limbs to be displayed
     :param wait_for_ms: The time for which the image should be displayed, if zero wait for keypress
     :return: The image with the visualized humans and straying joints / limbs
     """
-    img = get_human_pose_image(img, human_data, limb_colors, joint_colors, min_limb_score_to_show)
+    img = get_human_pose_image(img, humans, min_limb_score_to_show)
     cv2.imshow("human_pose", img)
     cv2.waitKey(wait_for_ms)
 
 
-def save_human_pose_img(img: np.ndarray, human_data: ImageContentHumans, limb_colors: [], joint_colors: [],
+def save_human_pose_img(img: np.ndarray, humans: List[Human],
                         file_path="human_pose.png", min_limb_score_to_show: float = 0.4):
     """
     Visualizes all human skeletons and straying joints / limbs in the image and saves the image to the given path.
-    :param original_img: The original image
-    :param human_data: The human content in the image
+    :param img: The original image
+    :param humans: The human content in the image
     :param limb_colors: The colors of the limbs to visualize
     :param joint_colors: The colors of the joints to visualize
     :param file_path: The path in which the image with the visualized content should be saved.
     :param min_limb_score_to_show: The minimum score of limbs to be displayed
     :return: The image with the visualized humans and straying joints / limbs
     """
-    img = get_human_pose_image(img, human_data, limb_colors, joint_colors, min_limb_score_to_show)
+    img = get_human_pose_image(img, humans, min_limb_score_to_show)
     cv2.imwrite(file_path, img)
 
 
-def get_human_pose_image(img: np.ndarray, human_data: ImageContentHumans, limb_colors: List[Color],
-                         joint_colors: List[Color], min_limb_score_to_show):
+def get_human_pose_image(img: np.ndarray, humans: List[Human], min_limb_score_to_show):
     """
     Visualizes all human skeletons and straying joints / limbs in the image and returns it.
-    :param original_img: The original image
-    :param human_data: The human content in the image
-    :param limb_colors: The colors of the limbs to visualize
-    :param joint_colors: The colors of the joints to visualize
+    :param img: The original image
+    :param humans: The human content in the image
     :param min_limb_score_to_show: The minimum score of limbs to be displayed
     :return: The image with the visualized humans and straying joints / limbs
     """
     limb_line_width = 4
 
-    for human in human_data.humans:
-        for idx, limb in enumerate(human.skeleton.limbs):
+    for human in humans:
+        for limb_num, limb in enumerate(human.skeleton.limbs):
             if not limb:
                 continue
             if limb.matched_score < min_limb_score_to_show:
                 continue
-            limb_color = limb_colors[limb.num]
+            limb_color = human.skeleton.limb_colors[limb_num]
             if limb_color is None:
                 continue
             img = visualize_limb(img, limb, limb_color, limb_line_width)
         for joint_num, joint in enumerate(human.skeleton.joints):
-            cv2.circle(img, (int(joint.x), int(joint.y)), 5, joint_colors[joint_num].tuple_bgr, thickness=-1)
+            cv2.circle(img, (int(joint.x), int(joint.y)), 5, human.skeleton.joint_colors[joint_num].tuple_bgr, thickness=-1)
     return img
 
 
@@ -79,7 +76,7 @@ def get_visualized_skeletons(img: np.ndarray, skeletons: List[SkeletonBase]) -> 
 def get_visualized_skeleton(img: np.ndarray, skeleton: SkeletonBase):
     """
     Draws the skeletons joints and limbs in the image.
-    :param original_img: The original image
+    :param img: The original image
     :param skeleton: The skeleton to be visualized
     :return: A copy of the image with the visualized skeleton
     """
@@ -138,24 +135,22 @@ def visualize_straying_joints(img: np.ndarray, straying_joint_dict: Dict[int, Li
 def visualize_joint(img: np.ndarray, joint: Joint2D, color: Color, radius: int = 5):
     """
     Visualizes the given joint with the given color and radius.
-    :param original_img: The original image
+    :param img: The original image
     :param joint: The joint to visualize
     :param color: The color in which the joints should be displayed
-    :param write_in_original_image: Whether to write in the original img or create a copy of the image
     :param radius: The radius of the joint circles
     :return: The image with the visualized joint
     """
-    img = cv2.circle(img, tuple(joint.coordinates), radius, color.tuple_bgr, thickness=-1)
+    img = cv2.circle(img, (joint.x, joint.y), radius, color.tuple_bgr, thickness=-1)
     return img
 
 
 def visualize_joints(img: np.ndarray, joints: List[Joint2D], color: Color, radius: int = 5):
     """
     Visualizes joints with the given color and radius.
-    :param original_img: The original image
+    :param img: The original image
     :param joints: List of joints
     :param color: The color in which the joints should be displayed
-    :param write_in_original_image: Whether to write in the original img or create a copy of the image
     :param radius: The radius of the joint circles
     :return: The image with the visualized joints
     """
