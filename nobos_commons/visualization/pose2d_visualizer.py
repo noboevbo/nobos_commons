@@ -1,15 +1,13 @@
-import math
 from typing import List, Dict
 
 import cv2
 import numpy as np
 
-from nobos_commons.data_structures.human import Human
-from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
-
 from nobos_commons.data_structures.color import Color, Colors
+from nobos_commons.data_structures.human import Human
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
+from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 
 
 # Display and Save methods
