@@ -15,6 +15,13 @@ class SkeletonBase(object):
     limb_colors: List[Color]
     joint_colors: List[Color]
 
+    @property
+    def score(self) -> float:
+        score = 0
+        for joint in self.joints:
+            score += joint.score
+        return score / len(self.joints)
+
     # Serialization
 
     def to_dict(self) -> Dict[str, Any]:

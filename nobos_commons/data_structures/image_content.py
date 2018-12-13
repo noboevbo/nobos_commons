@@ -2,7 +2,7 @@ from collections import deque
 from typing import List, Dict
 
 from nobos_commons.data_structures.bounding_box import BoundingBox
-from nobos_commons.data_structures.human import ImageContentHumans, HumanPoseResult
+from nobos_commons.data_structures.human import ImageContentHumans, Human
 
 
 class ImageContent(object):
@@ -24,15 +24,15 @@ class ImageContent(object):
 class HumanContentBufferEntry(object):
     human_id: str
     last_added: int
-    human_content_buffer: List[HumanPoseResult]
+    human_content_buffer: List[Human]
 
-    def __init__(self, human_id: str, buffer_count: int, human: HumanPoseResult, buffer_size: int):
+    def __init__(self, human_id: str, buffer_count: int, human: Human, buffer_size: int):
         self.human_id = human_id
         self.last_added = buffer_count
         self.human_content_buffer = deque(maxlen=buffer_size)
         self.human_content_buffer.append(human)
 
-    def update(self, human: HumanPoseResult, buffer_count: int):
+    def update(self, human: Human, buffer_count: int):
         if human is not None:
             self.last_added = buffer_count
         self.human_content_buffer.append(human)
@@ -77,11 +77,11 @@ class ImageContentBuffer(object):
         for key in keys_to_delete:
             del self.__human_content_buffers[key]
 
-    def get_human_data_buffer_by_id(self, human_id: str) -> List[HumanPoseResult]:
+    def get_human_data_buffer_by_id(self, human_id: str) -> List[Human]:
         return self.__human_content_buffers[human_id].human_content_buffer
 
-    def get_human_content_buffers(self) -> Dict[str, List[HumanPoseResult]]:
-        result: Dict[str, List[HumanPoseResult]] = {}
+    def get_human_content_buffers(self) -> Dict[str, List[Human]]:
+        result: Dict[str, List[Human]] = {}
         for key, human_content_buffer in self.__human_content_buffers.items():
             result[key] = human_content_buffer.human_content_buffer
         return result

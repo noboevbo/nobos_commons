@@ -1,16 +1,25 @@
+import uuid
 from typing import List, Dict
 
 from nobos_commons.data_structures.bounding_box import BoundingBox
 from nobos_commons.data_structures.dimension import Vec3D, Vec2D
-import numpy as np
-
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
+from nobos_commons.utils.bounding_box_helper import get_human_bounding_box_from_joints
 
 
-class HumanPoseResult(object):
-    __slots__ = ['skeleton', 'score', 'heatmaps', 'uid', 'bounding_box']
+class Human(object):
+    __slots__ = ['uid', 'skeleton', '_bounding_box', '_score']
+
+    def __init__(self, uid: str = None, skeleton: SkeletonBase = None, bounding_box: BoundingBox = None):
+        """
+        Contains pose information about a human from within a image
+        """
+        self.uid = uid
+        self.skeleton = skeleton
+        self._bounding_box = bounding_box
+        self._score = 0
 
     @property
     def joint_list(self) -> List[List[int]]:
@@ -19,25 +28,28 @@ class HumanPoseResult(object):
             joint_list.append([joint.x, joint.y])
         return joint_list
 
-    def __init__(self, skeleton: SkeletonBase, score: float, uid: str = None, bounding_box: BoundingBox = None,
-                 heatmaps: np.ndarray = None):
-        """
-        Contains pose information about a human from within a image
-        :param joints: The joints in the skeleton of the human
-        :param limbs: The limbs in the skeleton of the human # TODO is ugly because not existing scalimbs will be placed in this list with None ...
-        :param score: The combined score of joints and limbs of the given human
-        """
-        self.skeleton = skeleton
-        self.score = score # TODO: Score should be calculated on the fly..
-        self.uid = uid
-        self.bounding_box = bounding_box # TODO: Should be calculated from skeleton if none
-        self.heatmaps = heatmaps
+    @property
+    def score(self) -> float:
+        if self._score == 0:
+            self._score = self.skeleton.score
+        return self._score
+
+    @property
+    def bounding_box(self) -> BoundingBox:
+        if self._bounding_box is None:
+            self._bounding_box = get_human_bounding_box_from_joints(self.skeleton.joints)
+        return self._bounding_box
+
+    @bounding_box.setter
+    def bounding_box(self, bounding_box: BoundingBox):
+        self._bounding_box = bounding_box
+
 
 
 class ImageContentHumans(object):
     __slots__ = ['img_path', 'humans', 'straying_joints', 'straying_limbs']
 
-    def __init__(self, humans: List[HumanPoseResult] = [], straying_joints: Dict[int, List[Joint2D]] = {}, straying_limbs: Dict[int, List[Limb2D]] = {}):
+    def __init__(self, humans: List[Human] = [], straying_joints: Dict[int, List[Joint2D]] = {}, straying_limbs: Dict[int, List[Limb2D]] = {}):
         """
         Contains all human poses recognized in the given image
         :param img_path: The filepath of the image

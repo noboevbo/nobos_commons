@@ -1,31 +1,31 @@
 from collections import defaultdict
 from typing import Dict, List, Type
 
-from nobos_commons.data_structures.human import HumanPoseResult
+from nobos_commons.data_structures.human import Human
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 from nobos_commons.utils.limb_helper import get_limbs_from_joints
 
 
-def is_joint_from_limb_in_human(human: HumanPoseResult, limb_candidate: Limb2D) -> bool:
+def is_joint_from_limb_in_human(human: Human, limb_candidate: Limb2D) -> bool:
     return human.skeleton.joints[limb_candidate.joint_from.num] == limb_candidate.joint_from or \
            human.skeleton.joints[limb_candidate.joint_to.num] == limb_candidate.joint_to
 
 
-def get_empty_human(num_joints, num_limbs) -> HumanPoseResult:
-    human = HumanPoseResult([None] * num_joints, [None] * num_limbs)
+def get_empty_human(num_joints, num_limbs) -> Human:
+    human = Human([None] * num_joints, [None] * num_limbs)
     return human
 
 
-def are_joints_in_both_humans(human_a: HumanPoseResult, human_b: HumanPoseResult) -> bool:
+def are_joints_in_both_humans(human_a: Human, human_b: Human) -> bool:
     for joint_idx, joint in enumerate(human_b.skeleton.joints):
         if joint is not None and human_a.skeleton.joints[joint_idx] is not None:
             return True
     return False
 
 
-def get_merged_humans(human_a: HumanPoseResult, human_b: HumanPoseResult) -> HumanPoseResult:
+def get_merged_humans(human_a: Human, human_b: Human) -> Human:
     for joint_idx, joint in enumerate(human_b.skeleton.joints):
         if joint is None:
             continue
@@ -45,10 +45,10 @@ def get_merged_humans(human_a: HumanPoseResult, human_b: HumanPoseResult) -> Hum
 
 
 def get_humans_from_limbs(limbs: Dict[int, List[Limb2D]], skeleton_type: Type[SkeletonBase], min_number_of_limbs: int,
-                          min_human_score: float) -> (List[HumanPoseResult], Dict[int, List[Limb2D]]):
+                          min_human_score: float) -> (List[Human], Dict[int, List[Limb2D]]):
     # last number in each row is the total parts number of that person
     # the second last number in each row is the score of the overall configuration
-    human_list: List[HumanPoseResult] = []  # Humans n, 20
+    human_list: List[Human] = []  # Humans n, 20
     limbs_used: List[Limb2D] = []
 
     for limb_nr, limb_candidates in limbs.items():
@@ -110,7 +110,7 @@ def get_humans_from_limbs(limbs: Dict[int, List[Limb2D]], skeleton_type: Type[Sk
     return humans, straying_limbs
 
 
-def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[SkeletonBase]) -> HumanPoseResult:
+def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[SkeletonBase]) -> Human:
     """
     TODO: Remove this? Replaced by auto_set_limbs in skeleton.
     :param joints:
@@ -126,4 +126,4 @@ def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[Skelet
     skeleton = skeleton_type()
     # skeleton.joints.copy_from_list(list(joints.values()))  # Implicitly copied when limbs are copied
     skeleton.limbs.copy_from_other(limbs)
-    return HumanPoseResult(skeleton=skeleton, score=human_score)
+    return Human(skeleton=skeleton, score=human_score)

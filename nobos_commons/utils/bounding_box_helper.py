@@ -2,12 +2,11 @@ import random
 import sys
 
 from nobos_commons.data_structures.bounding_box import BoundingBox
-from nobos_commons.data_structures.dimension import Coord2D, ImageSize
-from nobos_commons.data_structures.human import HumanPoseResult
+from nobos_commons.data_structures.dimension import Coord2D
 from nobos_commons.data_structures.skeletons.skeleton_joints_base import SkeletonJointsBase
 
 
-def get_human_bounding_box_from_joints(joints: SkeletonJointsBase, image_size: ImageSize):
+def get_human_bounding_box_from_joints(joints: SkeletonJointsBase, max_x_val: int = sys.maxsize, max_y_val: int = sys.maxsize):
     min_x = sys.maxsize
     min_y = sys.maxsize
     max_x = 0
@@ -33,8 +32,8 @@ def get_human_bounding_box_from_joints(joints: SkeletonJointsBase, image_size: I
 
     min_x = min_x if min_x > 0 else 0
     min_y = min_y if min_y > 0 else 0
-    max_x = max_x if max_x < image_size.width else image_size.width
-    max_y = max_y if max_y < image_size.height else image_size.height
+    max_x = max_x if max_x < max_x_val else max_x_val
+    max_y = max_y if max_y < max_y_val else max_y_val
 
     return BoundingBox(top_left=Coord2D(x=int(min_x), y=int(min_y)),
                        bottom_right=Coord2D(x=int(max_x), y=int(max_y)), label="person")
