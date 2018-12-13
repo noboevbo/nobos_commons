@@ -1,5 +1,4 @@
-from collections import deque
-from typing import List, Dict
+from typing import List
 
 from nobos_commons.data_structures.bounding_box import BoundingBox
 from nobos_commons.data_structures.human import Human
@@ -20,11 +19,7 @@ class ImageContent(object):
         Contains the content in a image observed by algorithm(s)
         """
         self.humans = humans
+        # TODO: Objects should be more than a bounding box, the currently also include human bbs, how to distinguish?
         self.objects = objects
         self.straying_joints = straying_joints
         self.straying_limbs = straying_limbs
-
-
-
-
-
