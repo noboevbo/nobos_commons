@@ -4,7 +4,7 @@ from typing import List
 from nobos_commons.data_structures.human import Human
 
 
-class HumanContentBufferEntry(object):
+class HumansBufferEntry(object):
     human_id: str
     last_added: int
     human_content_buffer: List[Human]
