@@ -34,6 +34,14 @@ class Color(object):
         """
         return self.b, self.g, self.r
 
+    @property
+    def hex(self) -> str:
+        """
+        Returns the hex value of the color
+        :return: hex value of the color
+        """
+        return '#%02x%02x%02x' % (self.r, self.g, self.b)
+
     @classmethod
     def from_hex(cls, hex: str):
         """
