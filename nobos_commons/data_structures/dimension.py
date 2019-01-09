@@ -15,6 +15,13 @@ class ImageSize(object):
         self.width = width
         self.height = height
 
+    def __eq__(self, other):
+        """Overrides the default implementation"""
+        if isinstance(other, ImageSize):
+            return self.width == other.width and \
+                   self.height == other.height
+        return False
+
 
 class Coord2D(Generic[NUM]):
     __slots__ = ['x', 'y']

@@ -37,3 +37,9 @@ class WebcamProvider(InputProviderBase):
 
             else:
                 return None
+
+        self.cap.release()
+
+    def stop(self):
+        self.cap.release()
+
