@@ -25,6 +25,10 @@ class WebcamProvider(InputProviderBase):
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.image_size.width)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.image_size.height)
         self.cap.set(cv2.CAP_PROP_FPS, fps)
+        # self.cap.set(cv2.CAP_PROP_AUTOFOCUS, 0)
+        #
+        # self.cap.set(cv2.CAP_PROP_BRIGHTNESS, 0.5)
+        # self.cap.set(cv2.CAP_PROP_FOCUS, 0.0)
 
     def get_data(self) -> np.ndarray:
         assert self.cap.isOpened(), 'Cannot capture source'
