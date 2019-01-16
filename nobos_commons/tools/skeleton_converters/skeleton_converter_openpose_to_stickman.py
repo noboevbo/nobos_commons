@@ -6,17 +6,17 @@ from nobos_commons.utils.joint_helper import get_middle_joint
 
 
 class SkeletonConverterOpenPoseToStickman(SkeletonConverter):
-    def get_converted_skeleton(self, skeleton_coco: SkeletonOpenPose) -> SkeletonStickman:
-        skeleton_stickman: SkeletonStickman = self._get_skeleton_from_joints(skeleton_coco)
+    def get_converted_skeleton(self, skeleton_openpose: SkeletonOpenPose) -> SkeletonStickman:
+        skeleton_stickman: SkeletonStickman = self._get_skeleton_from_joints(skeleton_openpose)
         self._set_calculated_joints(skeleton_stickman)
         return skeleton_stickman
 
     # Private methods
 
-    def _get_skeleton_from_joints(self, skeleton_coco: SkeletonOpenPose) -> SkeletonStickman:
+    def _get_skeleton_from_joints(self, skeleton_openpose: SkeletonOpenPose) -> SkeletonStickman:
         skeleton_stickman: SkeletonStickman = SkeletonStickman()
-        for joint in skeleton_coco.joints:
-            if joint.name in skeleton_stickman.joints:
+        for joint in skeleton_openpose.joints:
+            if hasattr(skeleton_stickman.joints, joint.name):
                 skeleton_stickman.joints[joint.name].copy_from(joint, allow_different_num=True)
         return skeleton_stickman
 

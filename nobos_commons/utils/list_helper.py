@@ -1,3 +1,4 @@
+from itertools import zip_longest
 from typing import List, Any
 
 
@@ -11,6 +12,11 @@ def get_chunks_by_list_sampler(input_list: List[Any], sequence_length: int, step
     :return: numpy_array with shape [time_frame_length, 1, self.feature_vec_length]
     """
     chunk_list: List[List[Any]] = []
-    for item_index in range(sequence_length, len(input_list), step=step_size):
+    for item_index in range(sequence_length, len(input_list), step_size):
         chunk_list.append(input_list[item_index - sequence_length])
     return chunk_list
+
+
+def split_list(input_list, split_size, fillvalue=None):
+    args = [iter(input_list)] * split_size
+    return zip_longest(fillvalue=fillvalue, *args)
