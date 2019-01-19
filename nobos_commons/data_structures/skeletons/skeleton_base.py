@@ -20,8 +20,7 @@ class SkeletonBase(object):
     def __init__(self):
         self.__joint_array = None
 
-    @property
-    def joint_array(self, use_cache=False) -> np.ndarray:
+    def get_joint_array(self, use_cache=False) -> np.ndarray:
         if use_cache:
             if self.__joint_array is None:
                 self.__joint_array = self.joints.to_numpy()
