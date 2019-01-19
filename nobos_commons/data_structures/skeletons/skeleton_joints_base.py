@@ -1,5 +1,7 @@
 from typing import List, Dict, Any
 
+import numpy as np
+
 from nobos_commons.data_structures.base_iterable_property_class import BaseIterablePropertyClass
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 
@@ -48,6 +50,18 @@ class SkeletonJointsBase(BaseIterablePropertyClass[Joint2D]):
         return count
 
     # Serialization
+
+    def to_numpy(self) -> np.ndarray:
+        """
+        Returns the joints concatenated in a one dimensional vector.
+        :return: 1-dim numpy array (float32)
+        """
+        numpy_array = np.zeros((len(self)), dtype=np.float32)
+        for joint_num, i in enumerate(range(0, len(self), 2)):
+            numpy_array[i] = self[joint_num].x
+            numpy_array[i+1] = self[joint_num].y
+        return numpy_array
+
 
     def to_dict(self) -> Dict[str, Any]:
         out_dict: Dict[str, Any] = {}
