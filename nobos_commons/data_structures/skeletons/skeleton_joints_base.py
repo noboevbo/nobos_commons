@@ -56,8 +56,9 @@ class SkeletonJointsBase(BaseIterablePropertyClass[Joint2D]):
         Returns the joints concatenated in a one dimensional vector.
         :return: 1-dim numpy array (float32)
         """
-        numpy_array = np.zeros((len(self)), dtype=np.float32)
-        for joint_num, i in enumerate(range(0, len(self), 2)):
+        num_coordinates = len(self) * 2
+        numpy_array = np.zeros(num_coordinates, dtype=np.float32)
+        for joint_num, i in enumerate(range(0, num_coordinates, 2)):
             numpy_array[i] = self[joint_num].x
             numpy_array[i+1] = self[joint_num].y
         return numpy_array
