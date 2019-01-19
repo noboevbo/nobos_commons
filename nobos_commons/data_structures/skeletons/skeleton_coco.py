@@ -12,6 +12,7 @@ class SkeletonCoco(SkeletonBase):
         """
         Override class attributes with instance attributes
         """
+        super().__init__()
         self.joints: SkeletonCocoJoints = SkeletonCocoJoints()
         self.limbs: SkeletonCocoLimbs = SkeletonCocoLimbs(self.joints)
 

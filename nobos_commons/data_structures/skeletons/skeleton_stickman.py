@@ -12,6 +12,7 @@ class SkeletonStickman(SkeletonBase):
         """
         Override class attributes with instance attributes
         """
+        super().__init__()
         self.joints: SkeletonStickmanJoints = SkeletonStickmanJoints()
         self.limbs: SkeletonStickmanLimbs = SkeletonStickmanLimbs(self.joints)
 

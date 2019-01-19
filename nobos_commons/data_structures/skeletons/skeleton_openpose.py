@@ -12,6 +12,7 @@ class SkeletonOpenPose(SkeletonBase):
         """
         Override class attributes with instance attributes
         """
+        super().__init__()
         self.joints: SkeletonOpenPoseJoints = SkeletonOpenPoseJoints()
         self.limbs: SkeletonOpenPoseLimbs = SkeletonOpenPoseLimbs(self.joints)
 

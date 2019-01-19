@@ -12,6 +12,7 @@ class SkeletonJhmdb(SkeletonBase):
         """
         Override class attributes with instance attributes
         """
+        super().__init__()
         self.joints: SkeletonJhmdbJoints = SkeletonJhmdbJoints()
         self.limbs: SkeletonJhmdbLimbs = SkeletonJhmdbLimbs(self.joints)
 

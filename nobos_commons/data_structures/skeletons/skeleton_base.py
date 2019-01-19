@@ -1,5 +1,7 @@
 from typing import List, TypeVar, Generic, Any, Dict
 
+import numpy as np
+
 from nobos_commons.data_structures.color import Color
 from nobos_commons.data_structures.skeletons.skeleton_joints_base import SkeletonJointsBase
 from nobos_commons.data_structures.skeletons.skeleton_limbs_base import SkeletonLimbsBase
@@ -14,6 +16,17 @@ class SkeletonBase(object):
 
     limb_colors: List[Color]
     joint_colors: List[Color]
+
+    def __init__(self):
+        self.__joint_array = None
+
+    @property
+    def joint_array(self, use_cache=False) -> np.ndarray:
+        if use_cache:
+            if self.__joint_array is None:
+                self.__joint_array = self.joints.to_numpy()
+            return self.__joint_array
+        return self.joints.to_numpy()
 
     @property
     def score(self) -> float:
