@@ -13,7 +13,7 @@ def is_filename_matching_regex(filename: str, regex: str) -> bool:
     return pattern.match(filename) is not None
 
 def get_img_paths_from_folder(img_dir: str) -> List[str]:
-    file_types = ['.png', '.jpg', '.PNG', '.JPG', '.JPEG']
+    file_types = ['.png', '.jpg', '.pgm', '.PNG', '.JPG', '.JPEG']
     img_paths = []
     for file_type in file_types:
         img_search_string = os.path.join(img_dir, "*" + file_type)
