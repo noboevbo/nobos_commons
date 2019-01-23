@@ -29,6 +29,15 @@ def get_img_paths_from_folder_recursive(img_dir: str) -> List[str]:
     return img_paths
 
 
+def get_subdir_paths_recursive(directory: str) -> List[str]:
+    output_dirs = []
+    sub_dirs = get_immediate_subdirectories(directory)
+    for sub_dir in sub_dirs:
+        output_dirs.append(sub_dir)
+        output_dirs.extend(get_subdir_paths_recursive(sub_dir))
+    return output_dirs
+
+
 def get_immediate_subdirectories(directory: str) -> List[str]:
     return [os.path.join(directory, name) for name in os.listdir(directory)
             if os.path.isdir(os.path.join(directory, name))]
