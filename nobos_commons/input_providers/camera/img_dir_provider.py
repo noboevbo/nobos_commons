@@ -14,7 +14,8 @@ class ImgDirProvider(InputProviderBase):
                  img_dir: str,
                  fps: int = None,
                  loop: bool = False,
-                 image_size: ImageSize = None):
+                 image_size: ImageSize = None,
+                 print_current_path: bool = False):
         """
         Provides images from a given image directory.
         :param img_dir: The directory which contains the images
@@ -26,6 +27,7 @@ class ImgDirProvider(InputProviderBase):
         self.fps = fps
         self.loop = loop
         self.image_size = image_size
+        self.print_current_path = print_current_path
 
     def get_data(self) -> np.ndarray:
         assert len(self.img_paths) > 0, 'No images found'
@@ -33,6 +35,8 @@ class ImgDirProvider(InputProviderBase):
             for img_path in self.img_paths:
                 if self.fps is not None:
                     start = time.time()
+                if self.print_current_path:
+                    print(img_path)
                 img = cv2.imread(img_path)
                 if self.image_size is not None:
                     img = cv2.resize(img, (self.image_size.width, self.image_size.height))
