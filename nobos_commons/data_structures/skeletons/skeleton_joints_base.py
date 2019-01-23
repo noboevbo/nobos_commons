@@ -51,7 +51,7 @@ class SkeletonJointsBase(BaseIterablePropertyClass[Joint2D]):
 
     # Serialization
 
-    def to_numpy(self) -> np.ndarray:
+    def to_numpy(self, min_score: float = None) -> np.ndarray:
         """
         Returns the joints concatenated in a one dimensional vector.
         :return: 1-dim numpy array (float32)
@@ -59,8 +59,14 @@ class SkeletonJointsBase(BaseIterablePropertyClass[Joint2D]):
         num_coordinates = len(self) * 2
         numpy_array = np.zeros(num_coordinates, dtype=np.float32)
         for joint_num, i in enumerate(range(0, num_coordinates, 2)):
-            numpy_array[i] = self[joint_num].x
-            numpy_array[i+1] = self[joint_num].y
+            joint = self[joint_num]
+            if min_score is not None and joint.score > -1:
+                if joint.score < min_score:
+                    numpy_array[i] = 0.0
+                    numpy_array[i+1] = 0.0
+                    continue
+            numpy_array[i] = joint.x
+            numpy_array[i+1] = joint.y
         return numpy_array
 
 
