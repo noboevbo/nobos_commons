@@ -104,3 +104,12 @@ def get_autoincremented_filepath(file_path: str) -> str:
         candidate = "{}_{}{}".format(filename, index, ext)
         index += 1
     return os.path.join(file_dir_path, candidate)
+
+
+def get_last_dir_name(dir_path: str) -> str:
+    """
+    Returns the last directory name in a path, e.g. /a/b/c -> c
+    :param dir_path:
+    :return:
+    """
+    return os.path.basename(os.path.normpath(dir_path))
