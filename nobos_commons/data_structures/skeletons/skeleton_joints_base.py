@@ -51,22 +51,27 @@ class SkeletonJointsBase(BaseIterablePropertyClass[Joint2D]):
 
     # Serialization
 
-    def to_numpy(self, min_score: float = None) -> np.ndarray:
+    def to_numpy(self, min_score: float = None, include_score: bool = False) -> np.ndarray:
         """
         Returns the joints concatenated in a one dimensional vector.
         :return: 1-dim numpy array (float32)
         """
         num_coordinates = len(self) * 2
         numpy_array = np.zeros(num_coordinates, dtype=np.float32)
-        for joint_num, i in enumerate(range(0, num_coordinates, 2)):
+        step_size = 3 if include_score else 2
+        for joint_num, i in enumerate(range(0, num_coordinates, step_size)):
             joint = self[joint_num]
             if min_score is not None and joint.score > -1:
                 if joint.score < min_score:
                     numpy_array[i] = 0.0
                     numpy_array[i+1] = 0.0
+                    if include_score:
+                        numpy_array[i+2] = -1
                     continue
             numpy_array[i] = joint.x
             numpy_array[i+1] = joint.y
+            if include_score:
+                numpy_array[i+2] = joint.score
         return numpy_array
 
 
