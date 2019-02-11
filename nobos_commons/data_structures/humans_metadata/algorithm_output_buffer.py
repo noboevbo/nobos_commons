@@ -12,10 +12,13 @@ class AlgorithmOutputBuffer(object):
 
     def add(self, outputs: List[AlgorithmOutputBufferEntry], frame_nr: int):
         # Remove the existing cache if more than one frame passed
+        ids_to_delete = []
         for identifier, last_frame_updated in self.__last_frame_updated.items():
             if last_frame_updated < frame_nr-1:
-                del self.__store[identifier]
-                del self.__last_frame_updated[identifier]
+                ids_to_delete.append(identifier)
+        for identifier in ids_to_delete:
+            del self.__store[identifier]
+            del self.__last_frame_updated[identifier]
 
         for output in outputs:
             if output.identifier not in self.__store:
