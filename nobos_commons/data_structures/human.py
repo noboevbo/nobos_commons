@@ -2,19 +2,23 @@ from typing import List
 
 from nobos_commons.data_structures.bounding_box import BoundingBox
 from nobos_commons.data_structures.dimension import Vec3D, Vec2D
+from nobos_commons.data_structures.humans_metadata.action import Action
 from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 from nobos_commons.utils.bounding_box_helper import get_human_bounding_box_from_joints
 
 
 class Human(object):
-    __slots__ = ['uid', 'skeleton', '_bounding_box', '_score']
+    __slots__ = ['uid', 'skeleton', 'action', 'frame_num', '_bounding_box', '_score']
 
-    def __init__(self, uid: str = None, skeleton: SkeletonBase = None, bounding_box: BoundingBox = None):
+    def __init__(self, uid: str = None, skeleton: SkeletonBase = None, bounding_box: BoundingBox = None,
+                 action: Action = None, frame_nr: int = None):
         """
         Contains pose information about a human from within a image
         """
         self.uid = uid
         self.skeleton = skeleton
+        self.action: Action = action
+        self.frame_num: int = frame_nr
         self._bounding_box = bounding_box
         self._score = 0
 
