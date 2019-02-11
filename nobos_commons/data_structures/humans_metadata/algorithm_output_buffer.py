@@ -15,6 +15,7 @@ class AlgorithmOutputBuffer(object):
         for identifier, last_frame_updated in self.__last_frame_updated.items():
             if last_frame_updated < frame_nr-1:
                 del self.__store[identifier]
+                del self.__last_frame_updated[identifier]
 
         for output in outputs:
             if output.identifier not in self.__store:
