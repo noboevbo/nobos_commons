@@ -88,7 +88,7 @@ def get_pickle_filename_from_file_path(file_path: str) -> str:
     return os.path.join(os.path.abspath(file_path), get_filename_without_extension(file_path) + ".pkl")
 
 
-def get_autoincremented_filepath(file_path: str) -> str:
+def get_autoincremented_filepath(file_path: str, fill_zeros: int = 5) -> str:
     file_path = os.path.expanduser(file_path)
 
     if not os.path.exists(file_path):
@@ -97,11 +97,17 @@ def get_autoincremented_filepath(file_path: str) -> str:
     root, ext = os.path.splitext(os.path.expanduser(file_path))
     file_dir_path = os.path.dirname(root)
     filename = os.path.basename(root)
-    candidate = filename + ext
+    index_str = "0"
+    if fill_zeros and fill_zeros > 0:
+        index_str.zfill(fill_zeros)
+    candidate = "{}_{}{}".format(filename, index_str, ext)
     index = 0
     ls = set(os.listdir(file_dir_path))
     while candidate in ls:
-        candidate = "{}_{}{}".format(filename, index, ext)
+        index_str = str(index)
+        if fill_zeros and fill_zeros > 0:
+            index_str.zfill(fill_zeros)
+        candidate = "{}_{}{}".format(filename, index_str, ext)
         index += 1
     return os.path.join(file_dir_path, candidate)
 
