@@ -1,5 +1,6 @@
 import os
 import shutil
+from distutils.dir_util import copy_tree
 from typing import Dict
 
 from nobos_commons.tools.log_handler import logger
@@ -28,7 +29,7 @@ def transfer_files(src: str, dst: str, move_src_data: bool = False):
         shutil.move(src, dst)
     else:
         logger.info('Copy {0} to {1}'.format(src, dst))
-        shutil.copytree(src, dst)
+        copy_tree(src, dst)
 
 
 def copy_folder_to_folder_indexed(source_dir: str, target_dir: str) -> Dict[str, str]:
