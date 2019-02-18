@@ -28,8 +28,13 @@ class __Cache(object):
         """
         self.func = func
         self.cache_config = cache_config
+        try:
+            self.func_cache_dir = self.get_function_hash()
+        except OSError as err:
+            print("OS Error, probably not possible to retrieve source code. Disable cache. Details: '{}'".format(err))
+            self.cache_config.cache_enabled = False
+            return
         self.is_method = self.__is_method(self.func)
-        self.func_cache_dir = self.get_function_hash()
         self.func_cache_dir_path = get_create_path(os.path.join(self.cache_config.cache_dir, self.func_cache_dir))
         self.arg_names = list(inspect.signature(self.func).parameters.keys())
         self.replacement_args = None
