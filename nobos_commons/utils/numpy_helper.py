@@ -10,11 +10,10 @@ def set_or_vstack(a: np.ndarray, b: np.ndarray, expand_dim_on_set: bool = True):
     :param b:
     :return:
     """
+    if expand_dim_on_set:
+        b = np.expand_dims(b, axis=0)
     if a is None:
-        if expand_dim_on_set:
-            return np.expand_dims(b, axis=0)
-        else:
-            return b
+        return b
     else:
         return np.vstack((a, b))
 
