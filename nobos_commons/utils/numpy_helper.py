@@ -57,7 +57,8 @@ def split_numpy_array_stepwise(input_array: np.ndarray, split_size: int, step_si
     output_splits: np.ndarray = None
     if input_array.shape[0] < split_size:
         filled_array = fill_array(input_array, split_size, fill_value)
-        output_splits = np.expand_dims(filled_array, axis=0)
+        return np.expand_dims(filled_array, axis=0)
+
     for input_list_index in range(0, input_array.shape[0] - (split_size - 1), step_size): # TODO: is this -1 correct?
         output_split = input_array[input_list_index:input_list_index + split_size]
         output_splits = set_or_vstack(output_splits, output_split)
