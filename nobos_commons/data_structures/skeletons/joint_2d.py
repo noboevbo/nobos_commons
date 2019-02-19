@@ -44,7 +44,7 @@ class Joint2D(object):
 
     @property
     def is_set(self) -> bool:
-        return self.score != -1 and self.x != -1 and self.y != -1
+        return self.score != 0 and self.x != 0 and self.y != 0
 
     @property
     def is_unassigned_joint(self) -> bool:
@@ -54,9 +54,9 @@ class Joint2D(object):
         """
         Sets the joint to the default (unset) state.
         """
-        self.x = -1
-        self.y = -1
-        self.score = -1
+        self.x = 0
+        self.y = 0
+        self.score = 0
 
     # Serialization
 
