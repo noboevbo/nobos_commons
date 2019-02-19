@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 
-def set_or_vstack(a: np.ndarray, b: np.ndarray):
+def set_or_vstack(a: np.ndarray, b: np.ndarray, expand_dim_on_set: bool = True):
     """
     If a exists it vstacks b, if not it sets a to b.
     :param a:
@@ -11,7 +11,10 @@ def set_or_vstack(a: np.ndarray, b: np.ndarray):
     :return:
     """
     if a is None:
-        return np.expand_dims(b, axis=0)
+        if expand_dim_on_set:
+            return np.expand_dims(b, axis=0)
+        else:
+            return b
     else:
         return np.vstack((a, b))
 
