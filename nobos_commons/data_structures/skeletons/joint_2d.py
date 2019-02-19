@@ -6,7 +6,7 @@ from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibi
 class Joint2D(object):
     __slots__ = ['_num', '_name', 'x', 'y', 'score', 'visibility']
 
-    def __init__(self, num: int = -1, name: str = None, x: int = -1, y: int = -1, score: float = -1,
+    def __init__(self, num: int = -1, name: str = None, x: int = 0, y: int = 0, score: float = 0,
                  visibility: JointVisibility = JointVisibility.VISIBLE):
         """
         Data class for 2D joints
