@@ -1,6 +1,10 @@
 from itertools import zip_longest
 from typing import List, Any
 
+import numpy as np
+
+from nobos_commons.utils.numpy_helper import set_or_vstack
+
 
 def get_chunks_by_list_sampler(input_list: List[Any], sequence_length: int, step_size: int = 1) -> List[List[Any]]:
     """
@@ -17,6 +21,24 @@ def get_chunks_by_list_sampler(input_list: List[Any], sequence_length: int, step
     return chunk_list
 
 
-def split_list(input_list, split_size, fillvalue=None):
+def split_list(input_list: List[Any], split_size: int, fill_value: Any = None):
     args = [iter(input_list)] * split_size
-    return zip_longest(fillvalue=fillvalue, *args)
+    return zip_longest(fillvalue=fill_value, *args)
+
+
+def split_list_stepwise(input_list: List[Any], split_size: int, step_size: int, fill_value: Any = None) -> List[List[Any]]:
+    assert fill_value is not None or len(input_list) >= split_size, \
+        "Input list of length '{}' is less than split size '{}' and no fill_value is given".format(len(input_list),
+                                                                                                   split_size)
+    # TODO: Create a handler which checks for splits which contain only zeros or so and removes them
+    output_splits: List[List[Any]] = []
+    for input_list_index in range(0, len(input_list) - (split_size - 1)): # TODO: is this -1 correct?
+        output_split: List[Any] = []
+        for output_split_index, input_list_index_for_output_split in enumerate(range(input_list_index, input_list_index + split_size)):
+            output_split.append(input_list[input_list_index_for_output_split])
+        output_splits.append(output_split)
+    return output_splits
+
+
+
+
