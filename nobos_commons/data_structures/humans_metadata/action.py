@@ -48,3 +48,9 @@ jhmdb_actions = [
     Action.WALK,
     Action.WAVE
 ]
+
+ofp_actions = [
+    Action.IDLE,
+    Action.WALK,
+    Action.WAVE
+]
