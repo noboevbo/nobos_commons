@@ -24,3 +24,27 @@ class Action(Enum):
     STAND = 19
     SWING_BASEBALL = 20
     THROW = 21
+
+jhmdb_actions = [
+    Action.BRUSH_HAIR,
+    Action.CATCH,
+    Action.CLAP,
+    Action.CLIMB_STAIRS,
+    Action.GOLF,
+    Action.JUMP,
+    Action.KICK_BALL,
+    Action.PICK,
+    Action.POUR,
+    Action.PULLUP,
+    Action.PUSH,
+    Action.RUN,
+    Action.SHOOT_BALL,
+    Action.SHOOT_BOW,
+    Action.SHOOT_GUN,
+    Action.SIT,
+    Action.STAND,
+    Action.SWING_BASEBALL,
+    Action.THROW,
+    Action.WALK,
+    Action.WAVE
+]
