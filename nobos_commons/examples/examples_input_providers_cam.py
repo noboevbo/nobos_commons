@@ -29,5 +29,6 @@ def img_dir_example(img_dir: str):
 
 
 if __name__ == "__main__":
-    webcam_example_async()
+    # webcam_example_async()
+    webcam_example()
     # img_dir_example("/media/disks/beta/datasets/ofp_tests/ofp_parkplatz_walking_02/FrontCamera")
