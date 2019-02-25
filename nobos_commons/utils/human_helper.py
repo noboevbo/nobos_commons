@@ -2,6 +2,7 @@ from collections import defaultdict
 from typing import Dict, List, Type
 
 from nobos_commons.data_structures.human import Human
+from nobos_commons.data_structures.image_content import ImageContent
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
@@ -127,3 +128,22 @@ def get_human_from_joints(joints: Dict[int, Joint2D], skeleton_type: Type[Skelet
     # skeleton.joints.copy_from_list(list(joints.values()))  # Implicitly copied when limbs are copied
     skeleton.limbs.copy_from_other(limbs)
     return Human(skeleton=skeleton, score=human_score)
+
+
+def get_human_with_highest_score(image_content: ImageContent):
+    """
+    Returns the human with the highest score from image_content
+    :param image_content:
+    :return:
+    """
+    if len(image_content.humans) > 0:
+        if len(image_content.humans) > 1:
+            print("Detected more than one human, use only one.")
+        human_idx_to_use = 0
+        best_score = 0
+        for human_idx, human in enumerate(image_content.humans):
+            if human.score > best_score:
+                human_idx_to_use = human_idx
+        return image_content.humans[human_idx_to_use]
+
+    return None
