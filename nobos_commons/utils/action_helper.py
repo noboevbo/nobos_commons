@@ -13,8 +13,8 @@ def get_action_from_string_start(input_str: str):
         if input_str_tmp.startswith(action.name.lower()):
             found_actions.append(action)
 
-    actual_action = ""
+    actual_action_name = ""
     for action in found_actions:
-        if len(action.name) > len(actual_action):
-            actual_action = action.name
-    return actual_action
+        if len(action.name) > len(actual_action_name):
+            actual_action_name = action.name
+    return Action[actual_action_name]
