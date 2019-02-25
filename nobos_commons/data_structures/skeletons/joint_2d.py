@@ -78,3 +78,9 @@ class Joint2D(object):
                        y=int(joint_2d_dict['y']),
                        score=float(joint_2d_dict['score']),
                        visibility=JointVisibility[joint_2d_dict['visibility']])
+
+    def __repr__(self):
+        return "num: '{}'; name: '{}'; x: '{}', y: '{}', score: '{}', visibility: '{}'".format(self.num, self.name,
+                                                                                               self.x, self.y,
+                                                                                               self.score,
+                                                                                               self.visibility)
