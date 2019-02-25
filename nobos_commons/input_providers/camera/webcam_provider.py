@@ -12,7 +12,8 @@ class WebcamProvider(InputProviderBase):
     def __init__(self,
                  camera_number: int = 0,
                  image_size: ImageSize = ImageSize(width=1280, height=720),
-                 fps: int = 60):
+                 fps: int = 60,
+                 mirror: bool = False):
         """
         Provides frames captured from a webcam. Uses OpenCV internally.
         :param camera_number: The cameras id
@@ -20,7 +21,7 @@ class WebcamProvider(InputProviderBase):
         :param fps: The fps on which the frames should be grabbed, may be limited by camera parameters
         """
         self.cap = cv2.VideoCapture(camera_number)
-
+        self.mirror = mirror
         self.image_size = image_size
         self.cap.set(cv2.CAP_PROP_FRAME_WIDTH, self.image_size.width)
         self.cap.set(cv2.CAP_PROP_FRAME_HEIGHT, self.image_size.height)
@@ -35,6 +36,8 @@ class WebcamProvider(InputProviderBase):
 
         while self.cap.isOpened():
             ret, frame = self.cap.read()
+            if self.mirror:
+                frame = cv2.flip(frame, 1)
             if ret:
                 yield frame
 

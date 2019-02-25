@@ -96,14 +96,14 @@ def get_autoincremented_filepath(file_path: str, fill_zeros: int = 5) -> str:
     filename = os.path.basename(root)
     index_str = "0"
     if fill_zeros and fill_zeros > 0:
-        index_str.zfill(fill_zeros)
+        index_str = index_str.zfill(fill_zeros)
     candidate = "{}_{}{}".format(filename, index_str, ext)
     index = 0
     ls = set(os.listdir(file_dir_path))
     while candidate in ls:
         index_str = str(index)
         if fill_zeros and fill_zeros > 0:
-            index_str.zfill(fill_zeros)
+            index_str = index_str.zfill(fill_zeros)
         candidate = "{}_{}{}".format(filename, index_str, ext)
         index += 1
     return os.path.join(file_dir_path, candidate)
