@@ -91,9 +91,6 @@ def get_pickle_filename_from_file_path(file_path: str) -> str:
 def get_autoincremented_filepath(file_path: str, fill_zeros: int = 5) -> str:
     file_path = os.path.expanduser(file_path)
 
-    if not os.path.exists(file_path):
-        return file_path
-
     root, ext = os.path.splitext(os.path.expanduser(file_path))
     file_dir_path = os.path.dirname(root)
     filename = os.path.basename(root)
