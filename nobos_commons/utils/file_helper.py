@@ -121,13 +121,15 @@ def get_last_dir_name(dir_path: str) -> str:
     return os.path.basename(os.path.normpath(dir_path))
 
 
-def batch_rename_files_to_index(files_dir: str, sorted_file_names: List[str], zfill: int = 6):
+def batch_rename_files_to_index(files_dir: str, sorted_file_names: List[str] = None, zfill: int = 6):
     """
     Renames all files from a sorted list (which must all be located in files_dir), to index.extension.
     e.g.
     a.jpg, b.jpg -> 000000.jpg, 000001.jpg
     """
+    if sorted_file_names is None:
+        sorted_file_names = sorted(get_img_paths_from_folder(files_dir))
     for file_num, file_name in enumerate(sorted_file_names):
         ext = get_extension(file_name)
-        file_name_new = "{0}.{1}".format(str(file_num).zfill(zfill), ext)
-        os.rename(files_dir, os.path.join(os.path.dirname(files_dir), file_name_new))
+        file_name_new = "{0}{1}".format(str(file_num).zfill(zfill), ext)
+        os.rename(os.path.join(files_dir, file_name), os.path.join(files_dir, file_name_new))

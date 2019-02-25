@@ -2,8 +2,6 @@ import os
 import time
 
 import cv2
-from typing import Tuple
-
 import numpy as np
 
 from nobos_commons.data_structures.dimension import ImageSize
@@ -32,12 +30,7 @@ class ImgDirProvider(InputProviderBase):
         self.print_current_path = print_current_path
 
     def get_data(self) -> np.ndarray:
-        for _, data in self.get_data_with_id():
-            return data
-
-    def get_data_with_id(self) -> Tuple[str, np.ndarray]:
         assert len(self.img_paths) > 0, 'No images found'
-        count = -1
         while True:
             for img_path in self.img_paths:
                 if self.fps is not None:
@@ -47,8 +40,7 @@ class ImgDirProvider(InputProviderBase):
                 img = cv2.imread(img_path)
                 if self.image_size is not None:
                     img = cv2.resize(img, (self.image_size.width, self.image_size.height))
-                count += 1
-                yield (count, img)
+                yield img
 
                 key = cv2.waitKey(1)
                 if key & 0xFF == ord('q'):
