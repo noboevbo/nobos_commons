@@ -40,7 +40,7 @@ def get_action_from_string(input_str: str):
     for action in found_actions:
         if len(action.name) > len(actual_action_name):
             actual_action_name = action.name
-            
+
     if not actual_action_name:
         raise KeyError("Could not find a adequate action for string '{}'".format(input_str))
 
