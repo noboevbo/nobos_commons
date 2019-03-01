@@ -26,20 +26,21 @@ def split_list(input_list: List[Any], split_size: int, fill_value: Any = None):
     return zip_longest(fillvalue=fill_value, *args)
 
 
-def split_list_stepwise(input_list: List[Any], split_size: int, step_size: int, fill_value: Any = None) -> List[List[Any]]:
+def split_list_stepwise(input_list: List[Any], split_size: int, step_size: int, fill_value: Any = None,
+                        every_n_element: int = 1) -> List[List[Any]]:
     assert fill_value is not None or len(input_list) >= split_size, \
         "Input list of length '{}' is less than split size '{}' and no fill_value is given".format(len(input_list),
                                                                                                    split_size)
     # TODO: Create a handler which checks for splits which contain only zeros or so and removes them
     output_splits: List[List[Any]] = []
-    if len(input_list) < split_size * step_size:
+    if len(input_list) < split_size * every_n_element:
         for i in range(0, split_size - len(input_list)):
             input_list.append(fill_value)
 
-    test = len(input_list) - (split_size - 1)
-    for input_list_index in range(0, test, step_size): # TODO: is this -1 correct?
+    for input_list_index in range(0, len(input_list) - ((split_size*every_n_element) - 1), step_size): # TODO: is this -1 correct?
         output_split: List[Any] = []
-        for output_split_index, input_list_index_for_output_split in enumerate(range(input_list_index, input_list_index + split_size)):
+        for output_split_index, input_list_index_for_output_split in \
+                enumerate(range(input_list_index, input_list_index + (split_size*every_n_element), every_n_element)):
             output_split.append(input_list[input_list_index_for_output_split])
         output_splits.append(output_split)
     return output_splits
