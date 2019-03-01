@@ -32,7 +32,7 @@ def split_list_stepwise(input_list: List[Any], split_size: int, step_size: int, 
                                                                                                    split_size)
     # TODO: Create a handler which checks for splits which contain only zeros or so and removes them
     output_splits: List[List[Any]] = []
-    if len(input_list) < split_size:
+    if len(input_list) < split_size * step_size:
         for i in range(0, split_size - len(input_list)):
             input_list.append(fill_value)
 
