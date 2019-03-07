@@ -11,7 +11,7 @@ if __name__ == "__main__":
     test_3 = list(split_list(list_a, 32))
     test_4 = list(split_list(list_b, 32, 0))
 
-    test_5 = split_list_stepwise(list_a, 32, step_size=1, fill_value=0, every_n_element=2)
+    test_5 = split_list_stepwise(list_a, 32, step_size=3, fill_value=0, every_n_element=2)
     test_6 = split_list_stepwise(list_b, 32, 1, fill_value=0)
     test_7 = split_list_stepwise(list_c, 32, 1, fill_value=0)
     test_8 = split_list_stepwise(list_d, 32, 1, fill_value=0)

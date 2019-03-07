@@ -29,6 +29,23 @@ def get_img_paths_from_folder_recursive(img_dir: str) -> List[str]:
     return img_paths
 
 
+def get_video_paths_from_folder(video: str) -> List[str]:
+    file_types = ['.avi', '.mp4', '.mp4v', '.mov', '.mkv']
+    vid_paths = []
+    for file_type in file_types:
+        vid_search_string = os.path.join(video, "*" + file_type)
+        vid_paths.extend(glob.glob(vid_search_string))
+    return vid_paths
+
+
+def get_video_paths_from_folder_recursive(video_dir: str) -> List[str]:
+    vid_paths = get_video_paths_from_folder(video_dir)
+    for sub_dir in get_immediate_subdirectories(video_dir):
+        print("Handle {}".format(sub_dir))
+        vid_paths += (get_video_paths_from_folder_recursive(sub_dir))
+    return vid_paths
+
+
 def get_subdir_paths_recursive(directory: str) -> List[str]:
     output_dirs = []
     sub_dirs = get_immediate_subdirectories(directory)
