@@ -28,10 +28,13 @@ class ImgDirProvider(InputProviderBase):
         self.loop = loop
         self.image_size = image_size
         self.print_current_path = print_current_path
+        self.stopped = False
 
     def get_data(self) -> np.ndarray:
         assert len(self.img_paths) > 0, 'No images found'
         while True:
+            if self.stopped:
+                return None
             for img_path in self.img_paths:
                 if self.fps is not None:
                     start = time.time()
@@ -50,3 +53,6 @@ class ImgDirProvider(InputProviderBase):
                     time.sleep(max(1. / self.fps - (time.time() - start), 0))
             if not self.loop:
                 break
+
+    def stop(self):
+        self.stopped = True
