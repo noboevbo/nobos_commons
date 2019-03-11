@@ -37,9 +37,14 @@ class FeatureVecProducerEhpi(object):
         joints = self.get_joints_func(skeleton)
         feature_vec = np.zeros((len(joints), 3), dtype=np.float32)
         for idx, joint in enumerate(joints):
-            feature_vec[idx][0] = joint.x
-            feature_vec[idx][1] = joint.y
-            feature_vec[idx][2] = joint.score
+            if joint.score < 0.4:
+                feature_vec[idx][0] = 0
+                feature_vec[idx][1] = 0
+                feature_vec[idx][2] = 0
+            else:
+                feature_vec[idx][0] = joint.x
+                feature_vec[idx][1] = joint.y
+                feature_vec[idx][2] = joint.score
 
         return feature_vec
 
