@@ -6,7 +6,7 @@ from nobos_commons.data_structures.constants.color_palette import DETECTION_COLO
 from nobos_commons.data_structures.constants.detection_classes import COCO_CLASSES
 
 
-def draw_bb(image: np.ndarray, bb: BoundingBox, title: str = None):
+def draw_bb(image: np.ndarray, bb: BoundingBox, title: str = None, thickness: int = 1):
     """
     Draws the given bounding box in the image
     :param image: The image in which the bounding box should be drawn
@@ -16,7 +16,7 @@ def draw_bb(image: np.ndarray, bb: BoundingBox, title: str = None):
     color = DETECTION_COLOR_PALETTE[COCO_CLASSES.index(bb.label)]
     top_left_tuple = (bb.top_left.x, bb.top_left.y)
     bottom_right_tuple = (bb.bottom_right.x, bb.bottom_right.y)
-    cv2.rectangle(image, top_left_tuple, bottom_right_tuple, color, 1)
+    cv2.rectangle(image, top_left_tuple, bottom_right_tuple, color, thickness)
     text_box_size = cv2.getTextSize(bb.label, cv2.FONT_HERSHEY_PLAIN, 1, 1)[0]
     text_box_bottom_right = bb.top_left.x + text_box_size[0] + 3, bb.top_left.y + text_box_size[1] + 4
     cv2.rectangle(image, top_left_tuple, text_box_bottom_right, color, -1)
