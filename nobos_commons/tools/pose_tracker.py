@@ -28,7 +28,7 @@ def get_features_to_track_from_human_joints(humans: List[Human]) -> np.ndarray:
     return features_array
 
 
-class PoseTrackerResnet(object):
+class PoseTracker(object):
     __slots__ = ['image_size', 'skeleton_type', 'min_joint_score_for_similarity', 'lk_params',
                  'joint_acceptable_distance_scale_factor_human_size',
                  'next_human_uid', 'previous_frame_gray', 'min_human_score']
