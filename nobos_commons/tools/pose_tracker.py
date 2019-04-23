@@ -38,7 +38,7 @@ class PoseTracker(object):
         self.image_size = image_size
         self.skeleton_type = skeleton_type
         self.min_joint_score_for_similarity = min_joint_score_for_similarity
-        self.joint_acceptable_distance_scale_factor_human_size = 0.025
+        self.joint_acceptable_distance_scale_factor_human_size = 0.075
         self.min_human_score = min_human_score
         # TODO: configurable?
         self.lk_params = dict(winSize=(15, 15),
@@ -58,12 +58,6 @@ class PoseTracker(object):
         return merged_humans, undetected_humans
 
     def get_pose_similarity(self, human: Human, human2: Human) -> float:
-        # First check if there's a big height difference
-        # human_height = get_human_height(human)
-        # human_height_2 = get_human_height(human2)
-        # if abs(human_height - human_height_2) >= human_height_threshold:
-        #     return -1
-        # TODO: A normalization is required. Lower (pixel) size of human -> lower max_acceptable_distance ... how to?
         human_size = math.sqrt(math.pow(human.bounding_box.width, 2) + math.pow(human.bounding_box.height, 2))
         human2_size = math.sqrt(math.pow(human2.bounding_box.width, 2) + math.pow(human2.bounding_box.height, 2))
         if human_size > human2_size:
@@ -74,8 +68,8 @@ class PoseTracker(object):
         joint_distances = get_euclidean_distance_joint_lists(human.skeleton.joints, human2.skeleton.joints,
                                                              min_joint_score=self.min_joint_score_for_similarity)
         for joint_distance in joint_distances:
-            # TODO: Statt * 3 irgendne Log funktion oder so dass es ab max_acceptable_distance steil gegen 0 geht, davo rnicht
-            score = 1 - (joint_distance / (max_acceptable_distance * 3))
+            # TODO: max_acceptable_distance something more meaningfull
+            score = 1 - (joint_distance / max_acceptable_distance)
             if score < 0:
                 score = 0
             joint_similarity_percentages.append(score)
@@ -83,7 +77,7 @@ class PoseTracker(object):
             return 0
         return sum(joint_similarity_percentages) / len(joint_similarity_percentages)
 
-    # TODO: Tracking auf low res img...
+    # TODO: Tracking on low res img...
     def _get_humans_by_tracking(self, frame: np.ndarray, previous_humans: List[Human]) -> (
             List[Human], np.ndarray):
         frame_gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
@@ -115,8 +109,6 @@ class PoseTracker(object):
 
                 optical_flow_point_idx = optical_flow_point_idx + len(self.skeleton_type.joints)
         return humans, frame_gray
-
-    # TODO: Sometimes there are two humans with the same UID...
 
     def merge_humans(self, humans_detected: List[Human], humans_tracked: List[Human],
                      assign_new_ids: bool = True) -> (List[Human], List[Human]):
