@@ -8,7 +8,7 @@ from nobos_commons.data_structures.human import Human
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.limb_2d import Limb2D
 from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
-
+from PIL import Image, ImageDraw, ImageFont
 
 # Display and Save methods
 
@@ -69,12 +69,17 @@ def get_visualized_skeleton(img: np.ndarray, skeleton: SkeletonBase, min_limb_sc
     :return: A copy of the image with the visualized skeleton
     """
     limb_line_width = 4
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = Image.fromarray(img)
+    draw = ImageDraw.Draw(img)
     for limb_num, limb in enumerate(skeleton.limbs):
         if not __limb_should_be_displayed(limb, skeleton.limb_colors, min_limb_score_to_show):
             continue
-        img = visualize_limb(img, limb, skeleton.limb_colors[limb_num], limb_line_width)
+        __visualize_limb(draw, limb, skeleton.limb_colors[limb_num], limb_line_width)
     for joint_num, joint in enumerate(skeleton.joints):
-        cv2.circle(img, (int(joint.x), int(joint.y)), 5, skeleton.joint_colors[joint_num].tuple_bgr, thickness=-1)
+        __visualize_joint(draw, joint, skeleton.joint_colors[joint_num], 3)
+    img = np.asarray(img)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     return img
 
 
@@ -87,10 +92,19 @@ def visualize_limb(img: np.ndarray, limb: Limb2D, limb_color: Color, line_width:
     :param line_width: The width of the line visualizing the limb
     :return: The image with the visualized joints
     """
-    p1 = (int(limb.joint_from.x), int(limb.joint_from.y))
-    p2 = (int(limb.joint_to.x), int(limb.joint_to.y))
-    cv2.line(img, p1, p2, limb_color.tuple_bgr, line_width)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = Image.fromarray(img)
+    draw = ImageDraw.Draw(img)
+    __visualize_limb(draw, limb, limb_color, line_width)
+    img = np.asarray(img)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     return img
+
+
+def __visualize_limb(draw: ImageDraw, limb: Limb2D, limb_color: Color, line_width: int = 4):
+    draw.line((int(limb.joint_from.x), int(limb.joint_from.y), int(limb.joint_to.x), int(limb.joint_to.y)),
+              fill=limb_color.tuple_rgb,
+              width=line_width)
 
 
 def visualize_straying_joints(img: np.ndarray, straying_joint_dict: Dict[int, List[Joint2D]], joint_colors: List[Color]):
@@ -122,8 +136,18 @@ def visualize_joint(img: np.ndarray, joint: Joint2D, color: Color, radius: int =
     :param radius: The radius of the joint circles
     :return: The image with the visualized joint
     """
-    img = cv2.circle(img, (joint.x, joint.y), radius, color.tuple_bgr, thickness=-1)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = Image.fromarray(img)
+    draw = ImageDraw.Draw(img)
+    __visualize_joint(draw, joint, color, radius)
+    img = np.asarray(img)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     return img
+
+
+def __visualize_joint(draw: ImageDraw, joint: Joint2D, color: Color, radius: int = 5):
+    draw.ellipse((int(joint.x) - radius, int(joint.y) - radius, int(joint.x) + radius, int(joint.y) + radius),
+                 color.tuple_rgb)
 
 
 def visualize_joints(img: np.ndarray, joints: List[Joint2D], color: Color, radius: int = 5):
@@ -135,8 +159,13 @@ def visualize_joints(img: np.ndarray, joints: List[Joint2D], color: Color, radiu
     :param radius: The radius of the joint circles
     :return: The image with the visualized joints
     """
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    img = Image.fromarray(img)
+    draw = ImageDraw.Draw(img)
     for joint in joints:
-        img = visualize_joint(img, joint, color, radius=radius)
+        __visualize_joint(draw, joint, color, radius=radius)
+    img = np.asarray(img)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     return img
 
 
