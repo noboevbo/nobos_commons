@@ -9,7 +9,7 @@ from nobos_commons.data_structures.skeletons.joint_3d import Joint3D
 T = TypeVar('T', Joint2D, Joint3D)
 
 
-class SkeletonJointsBase(Generic[T], BaseIterablePropertyClass[T]):
+class SkeletonJointsBase(BaseIterablePropertyClass[T], Generic[T]):
     __dict__: Dict[str, T]
 
     @property
