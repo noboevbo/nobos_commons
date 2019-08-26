@@ -1,5 +1,7 @@
 from typing import Dict, Any
 
+import numpy as np
+
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibility
 
@@ -42,6 +44,9 @@ class Joint3D(Joint2D):
         result = super().to_dict()
         result['z'] = self.z
         return result
+
+    def to_numpy_position(self):
+        return np.array([self.x, self.y, self.z])
 
     @staticmethod
     def from_dict(joint_3d_dict: Dict[str, Any]) -> 'Joint3D':
