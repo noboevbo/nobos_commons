@@ -6,7 +6,7 @@ from nobos_commons.data_structures.skeletons.skeleton_joints_base import Skeleto
 
 T = TypeVar('T', Joint2D, Joint3D)
 
-class SkeletonStickmanJointsBase(SkeletonJointsBase, Generic[T]):
+class SkeletonStickmanJointsBase(SkeletonJointsBase[T], Generic[T]):
     def __init__(self, joint_class: Type[T]):
         """
         Implementation only works on Python 3.6+
