@@ -1,7 +1,11 @@
+from typing import TypeVar
+
 from nobos_commons.data_structures.skeletons.skeleton_stickman import SkeletonStickman
+from nobos_commons.data_structures.skeletons.skeleton_stickman_3d import SkeletonStickman3D
 
+T = TypeVar('T', SkeletonStickman, SkeletonStickman3D)
 
-def get_joints_default(skeleton: SkeletonStickman):
+def get_joints_default(skeleton: T):
     return [
         # Head region
         skeleton.joints.nose,
@@ -35,7 +39,7 @@ def get_joints_default(skeleton: SkeletonStickman):
     ]
 
 
-def get_joints_full(self, skeleton: SkeletonStickman):
+def get_joints_full(skeleton: T):
     return list(skeleton.joints)
 
 
