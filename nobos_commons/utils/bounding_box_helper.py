@@ -85,8 +85,8 @@ def get_human_bounding_box_3D_from_joints(joints: SkeletonJointsBase[Joint3D], m
     max_y = max_y if max_y < max_y_val else max_y_val
     max_z = max_z if max_z < max_z_val else max_z_val
 
-    return BoundingBox3D(top_left=Coord3D(x=int(min_x), y=int(min_y), z=int(min_z)),
-                         bottom_right=Coord3D(x=int(max_x), y=int(max_y), z=int(max_z)), label="person")
+    return BoundingBox3D(top_left=Coord3D(x=min_x, y=min_y, z=min_z),
+                         bottom_right=Coord3D(x=max_x, y=max_y, z=max_z), label="person")
 
 
 def get_random_bounding_box(width, height, bb_min_size=(5, 5)):
