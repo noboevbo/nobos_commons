@@ -44,7 +44,7 @@ class FeatureVecProducerEhpi(object):
             else:
                 feature_vec[idx][0] = joint.x
                 feature_vec[idx][1] = joint.y
-                feature_vec[idx][2] = joint.score
+                # feature_vec[idx][2] = joint.score
 
         return feature_vec
 
