@@ -2,8 +2,7 @@ import glob
 import ntpath
 import os
 import re
-import shutil
-from typing import List, Dict
+from typing import List
 
 
 def is_filename_matching_regex(filename: str, regex: str) -> bool:
@@ -11,6 +10,7 @@ def is_filename_matching_regex(filename: str, regex: str) -> bool:
         return True
     pattern = re.compile(regex)
     return pattern.match(filename) is not None
+
 
 def get_img_paths_from_folder(img_dir: str) -> List[str]:
     file_types = ['.png', '.jpg', '.pgm', '.PNG', '.JPG', '.JPEG']
@@ -147,3 +147,15 @@ def batch_rename_files_to_index(files_dir: str, sorted_file_names: List[str] = N
         ext = get_extension(file_name)
         file_name_new = "{0}{1}".format(str(file_num).zfill(zfill), ext)
         os.rename(os.path.join(files_dir, file_name), os.path.join(files_dir, file_name_new))
+
+
+def trim_end(string_in: str, ending: str):
+    """
+    Trims the end of a string when it's present.
+    :param string_in: The full string
+    :param ending: The part which should be removed from the end
+    :return: The string with ending removed.
+    """
+    if string_in.endswith(ending):
+        return string_in[:-len(ending)]
+    return string_in
