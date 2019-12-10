@@ -8,7 +8,7 @@ from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibi
 class Joint2D(object):
     __slots__ = ['_num', '_name', 'x', 'y', 'score', 'visibility']
 
-    def __init__(self, num: int = -1, name: str = None, x: int = 0, y: int = 0, score: float = 0,
+    def __init__(self, num: float = -1, name: str = None, x: float = 0, y: float = 0, score: float = 0,
                  visibility: JointVisibility = JointVisibility.VISIBLE):
         """
         Data class for 2D joints
@@ -19,10 +19,10 @@ class Joint2D(object):
         :param score: The prediction score
         :param visibility: The visibility of the joint (Usually only used in datasets for training purpose)
         """
-        self._num: int = num
+        self._num: float = num
         self._name: str = name
-        self.x: int = x
-        self.y: int = y
+        self.x: float = x
+        self.y: float = y
         self.score: float = score
         self.visibility: JointVisibility = visibility
 
@@ -37,7 +37,7 @@ class Joint2D(object):
         self.visibility = other.visibility
 
     @property
-    def num(self) -> int:
+    def num(self) -> float:
         return self._num
 
     @property
@@ -79,8 +79,8 @@ class Joint2D(object):
     def from_dict(joint_2d_dict: Dict[str, Any]) -> 'Joint2D':
         return Joint2D(num=joint_2d_dict['num'],
                        name=joint_2d_dict['name'],
-                       x=int(joint_2d_dict['x']),
-                       y=int(joint_2d_dict['y']),
+                       x=float(joint_2d_dict['x']),
+                       y=float(joint_2d_dict['y']),
                        score=float(joint_2d_dict['score']),
                        visibility=JointVisibility[joint_2d_dict['visibility']])
 

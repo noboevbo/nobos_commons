@@ -11,6 +11,8 @@ from nobos_commons.data_structures.skeletons.skeleton_base import SkeletonBase
 from PIL import Image, ImageDraw, ImageFont
 
 # Display and Save methods
+from nobos_commons.utils.visualization_helper import limb_should_be_displayed
+
 
 def display_humans(img: np.ndarray, humans: List[Human], wait_for_ms: int = 0, min_limb_score_to_show: float = 0.4):
     """
@@ -73,7 +75,7 @@ def get_visualized_skeleton(img: np.ndarray, skeleton: SkeletonBase, min_limb_sc
     img = Image.fromarray(img)
     draw = ImageDraw.Draw(img)
     for limb_num, limb in enumerate(skeleton.limbs):
-        if not __limb_should_be_displayed(limb, skeleton.limb_colors, min_limb_score_to_show):
+        if not limb_should_be_displayed(limb, skeleton.limb_colors, min_limb_score_to_show):
             continue
         __visualize_limb(draw, limb, skeleton.limb_colors[limb_num], limb_line_width)
     for joint_num, joint in enumerate(skeleton.joints):
@@ -169,11 +171,4 @@ def visualize_joints(img: np.ndarray, joints: List[Joint2D], color: Color, radiu
     return img
 
 
-def __limb_should_be_displayed(limb: Limb2D, limb_colors: List[Color], min_limb_score_to_show):
-    if not limb.is_set:
-        return False
-    if limb_colors[limb.num] is None:
-        return False
-    if limb.matched_score < min_limb_score_to_show:
-        return False
-    return True
+

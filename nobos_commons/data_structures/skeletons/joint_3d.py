@@ -9,7 +9,7 @@ from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibi
 class Joint3D(Joint2D):
     __slots__ = ['_num', '_name', 'x', 'y', 'z', 'score', 'visibility']
 
-    def __init__(self, num: int = -1, name: str = None, x: int = 0, y: int = 0, z: int = 0, score: float = 0,
+    def __init__(self, num: float = -1, name: str = None, x: float = 0, y: float = 0, z: float = 0, score: float = 0,
                  visibility: JointVisibility = JointVisibility.VISIBLE):
         """
         Data class for 2D joints
@@ -21,7 +21,7 @@ class Joint3D(Joint2D):
         :param visibility: The visibility of the joint (Usually only used in datasets for training purpose)
         """
         super().__init__(num, name, x, y, score, visibility)
-        self.z: int = z
+        self.z: float = z
 
     def copy_from(self, other: 'Joint3D', allow_different_num: bool = False, allow_different_name: bool = False):
         super().copy_from(other, allow_different_num, allow_different_name)
@@ -52,9 +52,9 @@ class Joint3D(Joint2D):
     def from_dict(joint_3d_dict: Dict[str, Any]) -> 'Joint3D':
         return Joint3D(num=joint_3d_dict['num'],
                        name=joint_3d_dict['name'],
-                       x=int(joint_3d_dict['x']),
-                       y=int(joint_3d_dict['y']),
-                       z=int(joint_3d_dict['z']),
+                       x=float(joint_3d_dict['x']),
+                       y=float(joint_3d_dict['y']),
+                       z=float(joint_3d_dict['z']),
                        score=float(joint_3d_dict['score']),
                        visibility=JointVisibility[joint_3d_dict['visibility']])
 

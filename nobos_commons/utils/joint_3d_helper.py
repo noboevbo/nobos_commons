@@ -99,9 +99,9 @@ def get_middle_joint_3D(joint_a: Joint3D, joint_b: Joint3D) -> Joint3D:
         visibility = JointVisibility.ABSENT
 
     return Joint3D(
-        x=int((joint_a.x + joint_b.x) / 2),
-        y=int((joint_a.y + joint_b.y) / 2),
-        z=int((joint_a.z + joint_b.z) / 2),
+        x=((joint_a.x + joint_b.x) / 2),
+        y=((joint_a.y + joint_b.y) / 2),
+        z=((joint_a.z + joint_b.z) / 2),
         score=(joint_a.score + joint_b.score) / 2,
         visibility=visibility
     )

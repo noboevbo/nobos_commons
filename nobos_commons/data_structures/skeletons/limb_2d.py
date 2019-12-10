@@ -5,7 +5,7 @@ from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 
 class Limb2D(object):
     def __init__(self, num: int, joint_from: Joint2D, joint_to: Joint2D, score: float = -1):
-        __slots__ = ['_num', '_joint_from', '_joint_to', 'score']
+        __slots__ = ['_num', '_joint_from', '_joint_to', '_score']
         """
         :param num: The number of the limb in the skeleton configuration
         :param joint_from: The joint from which the limb goes
