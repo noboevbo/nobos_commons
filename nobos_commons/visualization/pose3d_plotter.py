@@ -12,7 +12,6 @@ from nobos_commons.utils.visualization_helper import limb_should_be_displayed
 
 
 def __init_coordinate_system(ax: Axes3D, root_xyz: List[int], radius=2):
-    # TODO: GET ACTUAL ROOT, HOW TO?
     ax.set_xlim3d([-radius + root_xyz[0], radius + root_xyz[0]])
     ax.set_ylim3d([-radius + root_xyz[2], radius + root_xyz[2]])
     ax.set_zlim3d([-radius + root_xyz[1], radius + root_xyz[1]])
@@ -42,26 +41,6 @@ def __init_coordinate_system(ax: Axes3D, root_xyz: List[int], radius=2):
     ax.w_zaxis.line.set_color(white)
 
 
-# def visualize_limb(limb: Limb3D, limb_color: str):
-#     """
-#     Visualizes the limb with the given color and line width.
-#     :param img: The original image
-#     :param limb: The limb to visualize
-#     :param limb_color: The color in which the limb should be displayed
-#     :param line_width: The width of the line visualizing the limb
-#     :return: The image with the visualized joints
-#     """
-#
-#     return img
-#
-#
-# def __visualize_limb(draw: ImageDraw, limb: Limb2D, limb_color: Color, line_width: int = 4):
-#     draw.line((int(limb.joint_from.x), int(limb.joint_from.y), int(limb.joint_to.x), int(limb.joint_to.y)),
-#               fill=limb_color.tuple_rgb,
-#               width=line_width)
-
-
-
 def display_humans(human: Human, plot_labels: bool = False):
     """
     Visualizes all human skeletons and straying joints / limbs in the image and displays the image.
@@ -73,6 +52,7 @@ def display_humans(human: Human, plot_labels: bool = False):
     """
     fig = plt.figure(num=None, figsize=(10, 10), dpi=80, facecolor='w', edgecolor='k')
     ax = fig.add_subplot(111, projection='3d')
+    # TODO: GET ACTUAL ROOT by calculation, not just from joint 0..
     __init_coordinate_system(ax, [human.skeleton.joints[0].x, human.skeleton.joints[0].y, human.skeleton.joints[0].z])
 
     for limb in human.skeleton.limbs:
