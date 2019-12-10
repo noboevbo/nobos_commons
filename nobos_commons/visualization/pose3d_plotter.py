@@ -69,7 +69,8 @@ def display_humans(human: Human, plot_labels: bool = False):
 
     plt.show()
 
-x = Human()
-x.skeleton = pickle.load(open("/media/disks/beta/example_data/skeleton3d.pkl", 'rb'))
-a = SkeletonStickman3D
-display_humans(x)
+
+if __name__ == '__main__':
+    human = Human()
+    human.skeleton = pickle.load(open("/media/disks/beta/example_data/skeleton3d.pkl", 'rb'))
+    display_humans(human)
