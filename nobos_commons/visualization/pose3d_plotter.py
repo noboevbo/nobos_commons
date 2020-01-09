@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
 from nobos_commons.data_structures.human import Human
-from nobos_commons.data_structures.skeletons.skeleton_stickman_3d import SkeletonStickman3D
 from nobos_commons.utils.visualization_helper import limb_should_be_displayed
+
 
 # Adapted from: https://github.com/una-dinosauria/3d-pose-baseline/blob/master/src/viz.py
 
@@ -40,7 +40,6 @@ def __init_coordinate_system(ax: Axes3D, root_xyz: List[int], radius=2):
     ax.w_yaxis.line.set_color(white)
     ax.w_zaxis.line.set_color(white)
 
-
 def display_humans(human: Human, plot_labels: bool = False):
     """
     Visualizes all human skeletons and straying joints / limbs in the image and displays the image.
@@ -72,5 +71,5 @@ def display_humans(human: Human, plot_labels: bool = False):
 
 if __name__ == '__main__':
     human = Human()
-    human.skeleton = pickle.load(open("/media/disks/beta/example_data/skeleton3d.pkl", 'rb'))
+    human.skeleton = pickle.load(open("/media/disks/beta/example_data/skeleton3d_115.pkl", 'rb'))
     display_humans(human)
