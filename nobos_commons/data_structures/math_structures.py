@@ -1,4 +1,27 @@
+from typing import Union
+
 import numpy as np
+
+from nobos_commons.data_structures.dimension import Vec3D
+
+
+# https://stackoverflow.com/questions/4870393/rotating-coordinate-system-via-a-quaternion
+def _multiply_quaternion(q1: 'Quaternion', q2: 'Quaternion'):
+    w1, x1, y1, z1 = q1._quaternion
+    w2, x2, y2, z2 = q2._quaternion
+    w = w1 * w2 - x1 * x2 - y1 * y2 - z1 * z2
+    x = w1 * x2 + x1 * w2 + y1 * z2 - z1 * y2
+    y = w1 * y2 + y1 * w2 + z1 * x2 - x1 * z2
+    z = w1 * z2 + z1 * w2 + x1 * y2 - y1 * x2
+    return Quaternion(w, x, y, z)
+
+# def euler_to_quaternion(roll, pitch, yaw):
+#     qx = np.sin(roll / 2) * np.cos(pitch / 2) * np.cos(yaw / 2) - np.cos(roll / 2) * np.sin(pitch / 2) * np.sin(yaw / 2)
+#     qy = np.cos(roll / 2) * np.sin(pitch / 2) * np.cos(yaw / 2) + np.sin(roll / 2) * np.cos(pitch / 2) * np.sin(yaw / 2)
+#     qz = np.cos(roll / 2) * np.cos(pitch / 2) * np.sin(yaw / 2) - np.sin(roll / 2) * np.sin(pitch / 2) * np.cos(yaw / 2)
+#     qw = np.cos(roll / 2) * np.cos(pitch / 2) * np.cos(yaw / 2) + np.sin(roll / 2) * np.sin(pitch / 2) * np.sin(yaw / 2)
+#
+#     return [qw, qx, qy, qz]
 
 class Quaternion(object):
     __slots__ = ['_quaternion']
@@ -42,4 +65,22 @@ class Quaternion(object):
     @property
     def z(self):
         return self._quaternion[3]
+
+    def conjugate(self):
+        return Quaternion(self.w, -self.x, -self.y, -self.z)
+
+    def __mul__(self, other: Union['Quaternion', Vec3D]):
+        if isinstance(other, Quaternion):
+            return _multiply_quaternion(self, other)
+        elif isinstance(other, Vec3D):
+            vec_quaternion = Quaternion(0.0, other.x, other.y, other.z)
+            return _multiply_quaternion(_multiply_quaternion(self, vec_quaternion), self.conjugate())._quaternion[1:]
+
+
+if __name__ == "__main__":
+    q1 = Quaternion(0, 1, 0, 0)
+    q2 = Vec3D(0, 0, 1)
+
+    test = q1 * q2
+    a = 1
 
