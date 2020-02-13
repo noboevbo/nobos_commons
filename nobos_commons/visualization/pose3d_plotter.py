@@ -2,19 +2,24 @@ import pickle
 from typing import List
 
 import matplotlib.pyplot as plt
+from matplotlib import animation
 from mpl_toolkits.mplot3d import Axes3D
 
+from nobos_commons.data_structures.dimension import Vec3D
 from nobos_commons.data_structures.human import Human
 from nobos_commons.utils.visualization_helper import limb_should_be_displayed
 
 
 # Adapted from: https://github.com/una-dinosauria/3d-pose-baseline/blob/master/src/viz.py
 
+forward_vec = Vec3D(0, 0, 1)  # TODO: In commons?
+current_animation = None
 
 def __init_coordinate_system(ax: Axes3D, root_xyz: List[int], radius=2):
     ax.set_xlim3d([-radius + root_xyz[0], radius + root_xyz[0]])
-    ax.set_ylim3d([-radius + root_xyz[2], radius + root_xyz[2]])
-    ax.set_zlim3d([-radius + root_xyz[1], radius + root_xyz[1]])
+    # ax.set_ylim3d([-radius + root_xyz[1], radius + root_xyz[1]])
+    ax.set_ylim3d([0, 4]) # TODO no fixed values
+    ax.set_zlim3d([-radius + root_xyz[2], radius + root_xyz[2]])
 
     # ax.set_xlabel("x")
     # ax.set_ylabel("z")
@@ -40,20 +45,23 @@ def __init_coordinate_system(ax: Axes3D, root_xyz: List[int], radius=2):
     ax.w_yaxis.line.set_color(white)
     ax.w_zaxis.line.set_color(white)
 
-def display_humans(human: Human, plot_labels: bool = False):
+
+def plot_human(human: Human, plot_labels: bool = False):
     """
     Visualizes all human skeletons and straying joints / limbs in the image and displays the image.
-    :param img: The original image
-    :param humans: The human content in the image
-    :param min_limb_score_to_show: The minimum score of limbs to be displayed
-    :param wait_for_ms: The time for which the image should be displayed, if zero wait for keypress
-    :return: The image with the visualized humans and straying joints / limbs
+    :param human: The human for which the skeleton should be drawn
+    :param plot_labels: If true plots the joint names
     """
     fig = plt.figure(num=None, figsize=(10, 10), dpi=80, facecolor='w', edgecolor='k')
     ax = fig.add_subplot(111, projection='3d')
-    # TODO: GET ACTUAL ROOT by calculation, not just from joint 0..
-    __init_coordinate_system(ax, [human.skeleton.joints[0].x, human.skeleton.joints[0].y, human.skeleton.joints[0].z])
 
+    _plot_human(ax, human, plot_labels)
+    plt.show()
+
+def _plot_human(ax: Axes3D, human: Human, plot_labels: bool = False):
+    ax.clear()
+    # TODO: GET ACTUAL ROOT by calculation, not just from joint 0..
+    __init_coordinate_system(ax, [human.skeleton.joints[0].x, human.skeleton.joints[0].z, human.skeleton.joints[0].y])
     for limb in human.skeleton.limbs:
         if not limb_should_be_displayed(limb, human.skeleton.limb_colors, 0.4):
             continue
@@ -65,11 +73,25 @@ def display_humans(human: Human, plot_labels: bool = False):
         ax.scatter([joint.x], [joint.z], [joint.y], c=human.skeleton.joint_colors[joint.num].hex)
         if plot_labels:
             ax.text(joint.x, joint.z, joint.y, joint.name)
+        if joint.name == 'nose' and joint.rotation is not None:  # Display nose rotation vector as head direction indicator
+            u, w, v = joint.rotation * forward_vec  # Switch x and z because y / z up diff
+            ax.quiver(joint.x, joint.z, joint.y, u, v, w, length=0.5)
 
+
+def __animation_func(human: Human, ax: Axes3D, plot_labels: bool = False):
+    _plot_human(ax, human, plot_labels)
+
+
+def plot_animated_human(human_list: List[Human], plot_labels: bool = False):
+    """
+    Visualizes all human skeletons and straying joints / limbs in the image and displays the image.
+    :param human: The human for which the skeleton should be drawn
+    :param plot_labels: If true plots the joint names
+    """
+    global current_animation
+    fig = plt.figure(num=None, figsize=(10, 10), dpi=80, facecolor='w', edgecolor='k')
+    ax = fig.add_subplot(111, projection='3d')
+    humantmp = human_list[0]
+    __init_coordinate_system(ax, [humantmp.skeleton.joints[0].x, humantmp.skeleton.joints[0].z, humantmp.skeleton.joints[0].y])
+    current_animation = animation.FuncAnimation(fig, __animation_func, human_list, fargs=(ax, plot_labels), interval=24)
     plt.show()
-
-
-if __name__ == '__main__':
-    human = Human()
-    human.skeleton = pickle.load(open("/media/disks/beta/example_data/skeleton3d_115.pkl", 'rb'))
-    display_humans(human)
