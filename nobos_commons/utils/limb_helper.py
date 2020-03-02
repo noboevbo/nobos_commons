@@ -1,3 +1,4 @@
+import json
 from typing import Dict, Type
 
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
