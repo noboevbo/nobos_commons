@@ -73,16 +73,25 @@ def _plot_human(ax: Axes3D, human: Human, plot_labels: bool = False):
         ax.scatter([joint.x], [joint.z], [joint.y], c=human.skeleton.joint_colors[joint.num].hex)
         if plot_labels:
             ax.text(joint.x, joint.z, joint.y, joint.name)
-        if (joint.name == 'nose') and joint.rotation is not None:  # Display nose rotation vector as head direction indicator
-            u, w, v = joint.rotation * forward_vec  # Switch x and z because y / z up diff
-            ax.quiver(joint.x, joint.z, joint.y, u, v, w, length=0.5)
-    if human.root is not None:
-        joint = human.root
-        ax.scatter([joint.x], [joint.z], [joint.y], c=human.skeleton.joint_colors[joint.num].hex)
-        if plot_labels:
-            ax.text(joint.x, joint.z, joint.y, joint.name)
-        u, w, v = joint.rotation * forward_vec  # Switch x and z because y / z up diff
-        ax.quiver(joint.x, joint.z, joint.y, u, v, w, length=0.5)
+
+    #     if (joint.name == 'nose') and joint.rotation is not None:  # Display nose rotation vector as head direction indicator
+    #         u, w, v = joint.rotation * forward_vec  # Switch x and z because y / z up diff
+    #         ax.quiver(joint.x, joint.z, joint.y, u, v, w, length=0.5)
+    # if human.root is not None:
+    #     joint = human.root
+    #     ax.scatter([joint.x], [joint.z], [joint.y], c=human.skeleton.joint_colors[joint.num].hex)
+    #     if plot_labels:
+    #         ax.text(joint.x, joint.z, joint.y, joint.name)
+    #     u, w, v = joint.rotation * forward_vec  # Switch x and z because y / z up diff
+    #     ax.quiver(joint.x, joint.z, joint.y, u, v, w, length=0.5)
+    if human.skeleton.root is not None:
+        ax.quiver(human.skeleton.root.x, human.skeleton.root.y, human.skeleton.root.z,
+                  human.skeleton.root.direction_vec.x, human.skeleton.root.direction_vec.y, human.skeleton.root.direction_vec.z,
+                  length=0.5)
+    if human.skeleton.face is not None:
+        ax.quiver(human.skeleton.face.x, human.skeleton.face.y, human.skeleton.face.z,
+                  human.skeleton.face.direction_vec.x, human.skeleton.face.direction_vec.y, human.skeleton.face.direction_vec.z,
+                  length=0.5)
 
 
 def __animation_func(human: Human, ax: Axes3D, plot_labels: bool = False):
