@@ -73,8 +73,24 @@ class Quaternion(object):
         if isinstance(other, Quaternion):
             return _multiply_quaternion(self, other)
         elif isinstance(other, Vec3D):
-            vec_quaternion = Quaternion(0.0, other.x, other.y, other.z)
-            return _multiply_quaternion(_multiply_quaternion(self, vec_quaternion), self.conjugate())._quaternion[1:]
+            lx = self.x * 2
+            ly = self.y * 2
+            lz = self.z * 2
+            xx = self.x * lx
+            yy = self.y * ly
+            zz = self.z * lz
+            xy = self.x * ly
+            xz = self.x * lz
+            yz = self.y * lz
+            wx = self.w * lx
+            wy = self.w * ly
+            wz = self.w * lz
+
+            u = (1 - (yy + zz)) * other.x + (xy - wz) * other.y + (xz + wy) * other.z;
+            v = (xy + wz) * other.x + (1 - (xx + zz)) * other.y + (yz - wx) * other.z;
+            w = (xz - wy) * other.x + (yz + wx) * other.y + (1 - (xx + yy)) * other.z;
+            # vec_quaternion = Quaternion(0.0, other.x, other.y, other.z)
+            return [u, v, w]
 
 
 if __name__ == "__main__":
