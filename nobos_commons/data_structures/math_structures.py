@@ -86,9 +86,9 @@ class Quaternion(object):
             wy = self.w * ly
             wz = self.w * lz
 
-            u = (1 - (yy + zz)) * other.x + (xy - wz) * other.y + (xz + wy) * other.z;
-            v = (xy + wz) * other.x + (1 - (xx + zz)) * other.y + (yz - wx) * other.z;
-            w = (xz - wy) * other.x + (yz + wx) * other.y + (1 - (xx + yy)) * other.z;
+            u = (1 - (yy + zz)) * other.x + (xy - wz) * other.y + (xz + wy) * other.z
+            v = (xy + wz) * other.x + (1 - (xx + zz)) * other.y + (yz - wx) * other.z
+            w = (xz - wy) * other.x + (yz + wx) * other.y + (1 - (xx + yy)) * other.z
             # vec_quaternion = Quaternion(0.0, other.x, other.y, other.z)
             return [u, v, w]
 
