@@ -2,17 +2,15 @@ from typing import Dict, Any
 
 import numpy as np
 
-from nobos_commons.data_structures.dimension import Vec3D
-from nobos_commons.data_structures.math_structures import Quaternion
 from nobos_commons.data_structures.skeletons.joint_2d import Joint2D
 from nobos_commons.data_structures.skeletons.joint_visibility import JointVisibility
 
 
 class Joint3D(Joint2D):
-    __slots__ = ['_num', '_name', 'x', 'y', 'z', 'rotation', 'forward_vec', 'score', 'visibility']
+    __slots__ = ['_num', '_name', 'x', 'y', 'z', 'score', 'visibility']
 
     def __init__(self, num: float = -1, name: str = None, x: float = 0, y: float = 0, z: float = 0, score: float = 0,
-                 visibility: JointVisibility = JointVisibility.VISIBLE, rotation: Quaternion = None):
+                 visibility: JointVisibility = JointVisibility.VISIBLE):
         """
         Data class for 2D joints
         :param num: The number of the joint in the skeleton configuration
@@ -21,11 +19,10 @@ class Joint3D(Joint2D):
         :param y: The Y coordinate (column pixel in image)
         :param score: The prediction score
         :param visibility: The visibility of the joint (Usually only used in datasets for training purpose)
-        :param rotation: The rotation of the joint as a quaternion (roll, pitch, yaw)
+        :param rotation: The rotation of the joint as a quaternion
         """
         super().__init__(num, name, x, y, score, visibility)
         self.z: float = z
-        self.rotation: Quaternion = rotation
 
     def copy_from(self, other: 'Joint3D', allow_different_num: bool = False, allow_different_name: bool = False):
         super().copy_from(other, allow_different_num, allow_different_name)
