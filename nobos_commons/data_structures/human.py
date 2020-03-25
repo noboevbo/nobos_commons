@@ -8,7 +8,7 @@ from nobos_commons.utils.bounding_box_helper import get_human_bounding_box_from_
 
 
 class Human(object):
-    __slots__ = ['uid', 'skeleton', 'action', 'frame_num', '_bounding_box', '_score']
+    __slots__ = ['uid', 'skeleton', 'action', 'frame_num', '_bounding_box', '_score', 'root']
 
     def __init__(self, uid: str = None, skeleton: SkeletonBase = None, bounding_box: BoundingBox = None,
                  action: Action = None, frame_nr: int = None):
